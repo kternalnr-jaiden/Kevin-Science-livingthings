@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🌿 Plants Are Living Things!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --olive:#5a7a0a; --green:#4caf50; --dkgreen:#2e7d32;
+  --lime:#cddc39; --yellow:#f9c74f; --cream:#fefde8;
+  --brown:#795548; --soil-col:#5a3418; --sky:#87ceeb;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
+.stage{position:absolute;inset:0;width:100%;height:100%;}
+.off{display:none!important;}
+
+/* ══════════ STAGE 1 ══════════ */
+#s1{display:flex;flex-direction:column;background:linear-gradient(155deg,#eaf5d8 0%,#fefde0 100%);}
+
+.s1-top{
+  padding:10px 16px 8px;
+  background:linear-gradient(90deg,#5a7a0a,#4caf50);
+  color:#fff; display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0;
+}
+.s1-top h1{font-family:'Fredoka One';font-size:clamp(1rem,3.5vw,1.35rem);letter-spacing:.4px;}
+.pdots{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;max-width:150px;}
+.pd{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s;}
+.pd.act{background:#fff;transform:scale(1.35);}
+.pd.done{background:rgba(255,255,255,.72);}
+
+.s1-body{flex:1;position:relative;overflow:hidden;}
+
+/* Slides */
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:14px 18px;
+  opacity:0;pointer-events:none;
+  transform:translateX(70px);
+  transition:opacity .38s ease,transform .38s cubic-bezier(.34,1.18,.64,1);
+}
+.slide.act{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-60px);transition:opacity .32s ease,transform .32s ease;}
+
+/* Title */
+.sl-title{text-align:center;}
+.big-em{font-size:clamp(3rem,12vw,5.5rem);line-height:1;margin-bottom:10px;display:block;
+  animation:floatEm 3s ease-in-out infinite;}
+@keyframes floatEm{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.sl-title h2{font-family:'Fredoka One';font-size:clamp(1.6rem,5vw,2.4rem);color:#2e7d32;line-height:1.18;}
+.sl-title .sub{font-size:clamp(.85rem,2.5vw,1.05rem);color:#6b8c2a;font-weight:700;margin-top:7px;}
+
+/* Badge */
+.badge{
+  display:inline-block;
+  background:linear-gradient(135deg,#5a7a0a,#4caf50);
+  color:#fff;border-radius:30px;padding:3px 14px;
+  font-size:.72rem;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+
+/* Keyword card */
+.kw-card{
+  width:100%;max-width:460px;
+  background:#fff;border-radius:22px;
+  border:3px solid #5a7a0a;
+  padding:18px 20px;
+  box-shadow:0 7px 24px rgba(90,122,10,.18);
+}
+.kw-lbl{font-size:.68rem;font-weight:800;color:#5a7a0a;letter-spacing:1px;text-transform:uppercase;}
+.kw-w{font-family:'Fredoka One';font-size:clamp(2rem,7vw,3rem);color:#2e7d32;line-height:1.05;}
+.kw-em{font-size:clamp(1.8rem,6vw,2.6rem);float:right;margin-top:-6px;}
+.kw-dlbl{font-size:.68rem;font-weight:800;color:#9e9d24;letter-spacing:1px;text-transform:uppercase;margin:11px 0 4px;}
+.kw-def{font-size:clamp(.92rem,2.8vw,1.1rem);font-weight:700;color:#33691e;line-height:1.45;}
+
+/* Fact card */
+.fc-card{
+  width:100%;max-width:460px;
+  background:#fffde7;border-radius:22px;
+  border:3px solid #cddc39;
+  padding:18px 20px;
+  box-shadow:0 7px 24px rgba(205,220,57,.22);
+}
+.fc-num{font-family:'Fredoka One';font-size:clamp(2.2rem,8vw,3.4rem);color:#c6cc12;line-height:1;}
+.fc-em{font-size:clamp(1.8rem,6vw,2.4rem);float:right;margin-top:-8px;}
+.fc-text{font-size:clamp(.92rem,2.8vw,1.1rem);font-weight:700;color:#33691e;line-height:1.5;margin-top:5px;}
+
+/* Keyword illustration strip */
+.kw-il{
+  width:100%;max-width:460px;
+  border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,.55);
+  border:2px solid rgba(90,122,10,.14);
+  margin-bottom:8px;
+  flex-shrink:0;
+}
+.kw-il svg{display:block;}
+
+/* Title deco */
+.title-scene{position:relative;text-align:center;}
+.title-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:0;}
+.presenter-tag{
+  display:inline-block;
+  background:linear-gradient(135deg,#fff9c4,#ffe082);
+  border:2px solid #f9c74f;border-radius:20px;
+  padding:4px 16px;margin-top:10px;
+  font-size:clamp(.82rem,2.5vw,.95rem);font-weight:800;color:#e65100;
+  box-shadow:0 2px 8px rgba(249,199,79,.35);
+}
+
+/* Fav display */
+.fav-display{
+  width:100%;max-width:460px;
+  background:linear-gradient(135deg,#e8f5e9,#f9fbe7);
+  border-radius:22px;border:3px solid #4caf50;
+  padding:20px 22px;
+  box-shadow:0 7px 24px rgba(76,175,80,.2);
+}
+.fav-open-q{font-size:.72rem;font-weight:800;color:#7cb342;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.fav-quote-text{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1rem,3.2vw,1.25rem);color:#2e7d32;
+  line-height:1.5;
+  background:#fff;border-radius:12px;
+  padding:13px 16px;
+  border-left:5px solid #66bb6a;
+  position:relative;
+}
+.fav-quote-text::before{
+  content:'"';font-size:3rem;color:#a5d6a7;
+  position:absolute;top:-8px;left:8px;line-height:1;
+  font-family:Georgia,serif;
+}
+.fav-name{font-size:.78rem;font-weight:800;color:#81c784;margin-top:10px;text-align:right;}
+
+/* Favorite slide */
+.fav-card{
+  width:100%;max-width:460px;
+  background:linear-gradient(135deg,#fff9e6,#fffde7);
+  border-radius:22px;border:3px solid #f9c74f;
+  padding:18px 20px;
+  box-shadow:0 7px 24px rgba(249,199,79,.28);
+}
+.fav-lbl{font-size:.68rem;font-weight:800;color:#e65100;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.fav-inp{
+  width:100%;min-height:80px;
+  font-family:'Nunito',sans-serif;font-size:clamp(.92rem,2.8vw,1.05rem);
+  font-weight:700;color:#33691e;line-height:1.55;
+  background:#fffde7;border:2px dashed #f9c74f;border-radius:12px;
+  padding:10px 13px;resize:none;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.fav-inp:focus{border-color:#4caf50;box-shadow:0 0 0 3px rgba(76,175,80,.15);}
+.fav-inp::placeholder{color:#bdbdbd;font-weight:600;}
+.fav-preview{
+  margin-top:12px;padding:12px 14px;
+  background:#e8f5e9;border-radius:12px;border-left:4px solid #4caf50;
+  font-size:clamp(.88rem,2.5vw,1rem);font-weight:700;color:#2e7d32;
+  line-height:1.5;display:none;
+}
+.fav-preview.show{display:block;}
+
+/* Go slide */
+.sl-go{text-align:center;}
+.sl-go h2{font-family:'Fredoka One';font-size:clamp(1.5rem,5vw,2rem);color:#2e7d32;margin-bottom:10px;}
+.sl-go p{font-size:clamp(.9rem,2.8vw,1.05rem);color:#558b2f;font-weight:700;margin-bottom:4px;}
+.btn-go{
+  margin-top:18px;padding:13px 32px;
+  font-family:'Fredoka One';font-size:clamp(1.1rem,3.5vw,1.4rem);
+  background:linear-gradient(135deg,#4caf50,#2e7d32);color:#fff;
+  border:none;border-radius:50px;cursor:pointer;
+  box-shadow:0 6px 20px rgba(76,175,80,.4);
+  transition:all .2s; animation:pulsGo 2s ease-in-out infinite;
+}
+@keyframes pulsGo{0%,100%{box-shadow:0 6px 20px rgba(76,175,80,.4);}50%{box-shadow:0 6px 34px rgba(76,175,80,.75);}}
+.btn-go:hover{transform:scale(1.06);}
+.btn-go:active{transform:scale(.95);}
+
+/* Script panel */
+.script-wrap{
+  background:#fffde7;border-top:3px solid #f9c74f;
+  padding:8px 16px 9px;flex-shrink:0;
+  min-height:82px;max-height:115px;overflow-y:auto;
+}
+.sc-lbl{font-size:.68rem;font-weight:800;color:#e65100;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.sc-txt{font-size:clamp(.85rem,2.5vw,.97rem);color:#4e342e;font-weight:700;line-height:1.52;}
+
+/* Nav bar */
+.nav-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 14px 8px;background:#f0f9e0;
+  border-top:1px solid rgba(90,122,10,.15);flex-shrink:0;
+}
+.bn{padding:8px 20px;border:none;border-radius:28px;font-family:'Nunito';font-weight:800;font-size:clamp(.82rem,2.5vw,.92rem);cursor:pointer;transition:all .18s;}
+.bn:hover{transform:translateY(-2px);}
+.bn:active{transform:translateY(1px);}
+.bp{background:#e8f5e9;color:#2e7d32;}
+.bnxt{background:linear-gradient(135deg,#66bb6a,#2e7d32);color:#fff;box-shadow:0 3px 10px rgba(46,125,50,.3);}
+.slide-ct{font-size:.82rem;font-weight:800;color:#5a7a0a;}
+
+/* ══════════ STAGE 2 ══════════ */
+#s2{
+  background:linear-gradient(to bottom,
+    #5ab4f0 0%,#87ceeb 25%,#aaddf7 55%,
+    #c8f0b8 72%, #72c444 100%);
+  overflow:hidden;
+}
+
+/* Sky clouds */
+.scloud{position:absolute;pointer-events:none;}
+
+/* Sun */
+.sun-wrap{position:absolute;top:18px;right:44px;cursor:pointer;z-index:20;user-select:none;}
+.sun-body{
+  width:72px;height:72px;border-radius:50%;position:relative;z-index:2;
+  background:radial-gradient(circle at 38% 32%,#fffde7,#ffe57f,#ffca28,#ff8f00);
+  box-shadow:0 0 22px rgba(255,202,40,.65),0 0 55px rgba(255,143,0,.32);
+  transition:transform .15s,box-shadow .3s;
+}
+.sun-wrap:hover .sun-body{transform:scale(1.1);box-shadow:0 0 40px rgba(255,202,40,.85),0 0 90px rgba(255,143,0,.55);}
+.sun-wrap:active .sun-body{transform:scale(.92);}
+.sun-rring{position:absolute;inset:0;border-radius:50%;z-index:1;}
+.sray{position:absolute;width:4px;border-radius:2px;background:linear-gradient(#ffe082,transparent);transform-origin:center bottom;left:calc(50% - 2px);bottom:50%;}
+.sun-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:3;}
+.eye{width:7px;height:8px;background:#7b4a00;border-radius:50%;margin:0 5px;margin-top:-4px;}
+.smile{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:22px;height:11px;border:3px solid #7b4a00;border-top:none;border-radius:0 0 14px 14px;}
+
+/* Cloud watering */
+.cloud-btn{
+  position:absolute;top:7%;left:50%;transform:translateX(-50%);z-index:18;
+  cursor:pointer;user-select:none;
+  display:none;
+  animation:cloudBob 2.2s ease-in-out infinite;
+}
+@keyframes cloudBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+.cloud-btn:active{transform:translateX(-50%) scale(.94);}
+.cloud-hint{text-align:center;font-size:.72rem;font-weight:800;color:#1565c0;margin-top:2px;text-shadow:0 1px 4px rgba(255,255,255,.8);}
+
+/* Ground */
+.g-grass{position:absolute;bottom:17%;width:100%;height:28px;background:linear-gradient(180deg,#68bf43,#4caf50 55%,#388e3c);z-index:4;overflow:hidden;}
+.g-soil{position:absolute;bottom:0;width:100%;height:17%;z-index:3;overflow:hidden;transition:background 1s ease;cursor:pointer;}
+.g-soil.rocky{background:linear-gradient(180deg,#9e9e9e 0%,#757575 38%,#616161 100%);}
+.g-soil.good{background:linear-gradient(180deg,#7b5230 0%,#5a3418 40%,#4a2c0a 100%);cursor:default;}
+.rock{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 26%,#d5d5d5,#9e9e9e,#6e6e6e);border:1.5px solid #616161;}
+
+/* Soil hint */
+.soil-hint{
+  position:absolute;bottom:calc(17% + 36px);left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.92);border-radius:20px;padding:5px 14px;
+  font-size:.78rem;font-weight:800;color:#424242;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  animation:hintPop 1.6s ease-in-out infinite;
+  pointer-events:none;white-space:nowrap;z-index:22;
+}
+@keyframes hintPop{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-6px);}}
+
+/* Fix soil button */
+.btn-fix{
+  position:absolute;bottom:calc(17% + 8px);left:50%;transform:translateX(-50%);
+  padding:10px 26px;font-family:'Fredoka One';font-size:1.1rem;
+  background:linear-gradient(135deg,#a1887f,#6d4c41);color:#fff;
+  border:none;border-radius:40px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:all .2s;display:none;z-index:25;
+  animation:btnPulse 1.5s ease-in-out infinite;
+}
+@keyframes btnPulse{0%,100%{box-shadow:0 4px 16px rgba(0,0,0,.25);}50%{box-shadow:0 4px 28px rgba(109,76,65,.6);}}
+.btn-fix:hover{transform:translateX(-50%) translateY(-3px);}
+.btn-fix:active{transform:translateX(-50%) scale(.94);}
+
+/* Plant */
+.plant-wrap{position:absolute;bottom:calc(17% + 20px);left:50%;transform:translateX(-50%);pointer-events:none;z-index:5;}
+
+/* Bottom controls */
+.s2-ctrl{position:absolute;bottom:8px;width:100%;display:flex;justify-content:center;gap:11px;z-index:30;}
+.btn2{padding:9px 20px;border:none;border-radius:36px;font-family:'Nunito';font-size:.85rem;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2);transition:all .17s;}
+.btn2:hover{transform:translateY(-2px);}
+.btn2:active{transform:translateY(1px);}
+.b-back{background:linear-gradient(135deg,#78909c,#455a64);color:#fff;}
+.b-reset{background:linear-gradient(135deg,#ffb74d,#e65100);color:#fff;}
+
+/* HUD */
+.s2-hud{
+  position:absolute;top:12px;left:12px;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(8px);
+  border-radius:14px;padding:8px 14px;
+  font-size:clamp(.68rem,2vw,.75rem);font-weight:700;color:#3e2723;
+  line-height:2;z-index:25;box-shadow:0 3px 12px rgba(0,0,0,.14);
+}
+.hud-row{display:flex;align-items:center;gap:5px;}
+.hud-check{color:#2e7d32;font-size:.9rem;}
+
+/* Sun hint */
+.sun-h{
+  position:absolute;top:104px;right:30px;
+  background:rgba(255,255,255,.9);border-radius:20px;
+  padding:4px 11px;font-size:.72rem;font-weight:800;color:#e65100;
+  box-shadow:0 2px 10px rgba(0,0,0,.14);
+  animation:hintPop 1.8s ease-in-out infinite;
+  pointer-events:none;white-space:nowrap;z-index:22;
+}
+
+/* ══════════ POPUP ══════════ */
+.ovl{
+  position:fixed;inset:0;background:rgba(0,0,0,.52);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;opacity:0;pointer-events:none;
+  transition:opacity .28s;
+}
+.ovl.show{opacity:1;pointer-events:all;}
+.pbox{
+  background:#fff;border-radius:26px;
+  padding:26px 28px;max-width:330px;width:88%;
+  box-shadow:0 16px 50px rgba(0,0,0,.28);
+  transform:scale(.65) translateY(30px);
+  transition:transform .35s cubic-bezier(.34,1.3,.64,1);
+  text-align:center;
+}
+.ovl.show .pbox{transform:scale(1) translateY(0);}
+.p-ico{font-size:2.8rem;margin-bottom:8px;display:block;}
+.p-tit{font-family:'Fredoka One';font-size:1.4rem;color:#2e7d32;margin-bottom:9px;}
+.p-txt{font-size:clamp(.88rem,2.5vw,.98rem);color:#4e342e;line-height:1.55;font-weight:600;}
+.p-ok{
+  margin-top:16px;padding:10px 30px;
+  font-family:'Fredoka One';font-size:1.05rem;
+  background:linear-gradient(135deg,#66bb6a,#2e7d32);color:#fff;
+  border:none;border-radius:28px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(76,175,80,.4);
+  transition:all .18s;
+}
+.p-ok:hover{transform:scale(1.06);}
+
+/* Confetti */
+.conf{position:fixed;pointer-events:none;z-index:90;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     STAGE 1 — PRESENTATION SLIDES
+══════════════════════════════════ -->
+<div id="s1" class="stage">
+  <div class="s1-top">
+    <h1>🌿 Plants Are Living Things!</h1>
+    <div class="pdots" id="pdots"></div>
+  </div>
+  <div class="s1-body" id="slidesBody"></div>
+  <div class="script-wrap">
+    <div class="sc-lbl">📖 My Script — What to say:</div>
+    <div class="sc-txt" id="scTxt"></div>
+  </div>
+  <div class="nav-bar">
+    <button class="bn bp" id="bPrev" onclick="prevSlide()">← Back</button>
+    <span class="slide-ct" id="slideCt">1 / 11</span>
+    <button class="bn bnxt" id="bNext" onclick="nextSlide()">Next →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     STAGE 2 — PLANT ANIMATION
+══════════════════════════════════ -->
+<div id="s2" class="stage off">
+
+  <!-- Decorative sky clouds -->
+  <div class="scloud" style="top:44px;left:20px;">
+    <div style="position:relative;width:90px;height:28px;background:rgba(255,255,255,.82);border-radius:40px;">
+      <div style="position:absolute;width:44px;height:44px;background:rgba(255,255,255,.82);border-radius:50%;top:-22px;left:12px;"></div>
+      <div style="position:absolute;width:30px;height:30px;background:rgba(255,255,255,.82);border-radius:50%;top:-14px;left:46px;"></div>
+    </div>
+  </div>
+  <div class="scloud" style="top:80px;left:190px;opacity:.6;transform:scale(.7);">
+    <div style="position:relative;width:70px;height:22px;background:rgba(255,255,255,.78);border-radius:30px;">
+      <div style="position:absolute;width:36px;height:36px;background:rgba(255,255,255,.78);border-radius:50%;top:-18px;left:9px;"></div>
+    </div>
+  </div>
+
+  <!-- Sun (smiley, clickable) -->
+  <div class="sun-wrap" id="sun">
+    <div class="sun-body" id="sunBody">
+      <div class="sun-rring" id="sunRing"></div>
+      <div class="sun-face">
+        <div class="eye"></div><div class="eye"></div>
+        <div class="smile"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sun-h" id="sunH" style="display:none;">☀️ Click me!</div>
+
+  <!-- Watering cloud -->
+  <div class="cloud-btn" id="cloudBtn">
+    <svg width="118" height="78" viewBox="0 0 118 78">
+      <defs>
+        <filter id="cs"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,.15)"/></filter>
+      </defs>
+      <g filter="url(#cs)">
+        <circle cx="38" cy="40" r="24" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.8"/>
+        <circle cx="68" cy="30" r="27" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.8"/>
+        <circle cx="96" cy="40" r="20" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.8"/>
+        <ellipse cx="67" cy="50" rx="50" ry="18" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.8"/>
+        <!-- Spout -->
+        <rect x="52" y="60" width="30" height="9" rx="5" fill="#64b5f6"/>
+        <rect x="48" y="68" width="38" height="8" rx="4" fill="#42a5f5"/>
+        <!-- Holes -->
+        <circle cx="56" cy="76" r="2" fill="#1565c0"/>
+        <circle cx="64" cy="76" r="2" fill="#1565c0"/>
+        <circle cx="72" cy="76" r="2" fill="#1565c0"/>
+        <circle cx="80" cy="76" r="2" fill="#1565c0"/>
+      </g>
+    </svg>
+    <div class="cloud-hint">💧 Click to water!</div>
+  </div>
+
+  <!-- Soil hint -->
+  <div class="soil-hint" id="soilHint">🪨 Click the rocky soil!</div>
+
+  <!-- Fix soil button -->
+  <button class="btn-fix" id="btnFix" onclick="fixSoil()">🪣 Add Good Soil!</button>
+
+  <!-- Grass + Soil -->
+  <div class="g-grass" id="grass"></div>
+  <div class="g-soil rocky" id="soil" onclick="onSoilClick()">
+    <div id="rocksLayer"></div>
+  </div>
+
+  <!-- Plant SVG -->
+  <div class="plant-wrap" id="plantWrap">
+    <svg id="plantSvg" width="260" height="340" viewBox="-130 -340 260 340" overflow="visible">
+      <g id="trunkG"></g>
+      <g id="branchG"></g>
+      <g id="leavesG"></g>
+      <g id="tipG"></g>
+      <g id="labelsG"></g>
+    </svg>
+  </div>
+
+  <!-- HUD -->
+  <div class="s2-hud" id="s2hud"></div>
+
+  <!-- Controls -->
+  <div class="s2-ctrl">
+    <button class="btn2 b-back" onclick="goS1()">← Back to Lesson</button>
+    <button class="btn2 b-reset" onclick="resetS2()">🔄 Reset</button>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="ovl" id="ovl">
+  <div class="pbox">
+    <span class="p-ico" id="pIco">🌱</span>
+    <div class="p-tit" id="pTit">Title</div>
+    <div class="p-txt" id="pTxt">Text</div>
+    <button class="p-ok" onclick="closePopup()">Got it! 👍</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════
+//   SLIDE DATA
+// ══════════════════════════════
+const SLIDES = [
+  {
+    type:'title',
+    script:'Hi everyone! Today I am going to teach you about plants. Plants are living things — just like us! I will show you four key words and five amazing facts. Let\'s get started!'
+  },
+  {
+    type:'kw', n:1, w:'Living', em:'💚',
+    def:'A thing that grows, changes, and needs food, air, and water to survive.',
+    script:'My first key word is LIVING. A living thing grows and changes. It needs food, air, and water to survive. Plants are living things — and so are you!'
+  },
+  {
+    type:'kw', n:2, w:'Leaves', em:'🍃',
+    def:'The plant parts that use sunlight and air to make food.',
+    script:'Key word number two is LEAVES. Leaves are the parts of a plant that use sunlight and air to make food. Think of leaves like the kitchen of the plant!'
+  },
+  {
+    type:'kw', n:3, w:'Stem', em:'🌿',
+    def:'A plant part that holds up the plant.',
+    script:'Key word three is STEM. The stem holds the plant up so it stands straight. It also carries food and water to all parts of the plant. Without the stem, plants would fall down!'
+  },
+  {
+    type:'kw', n:4, w:'Root', em:'🌱',
+    def:'A plant part that keeps the plant in the ground.',
+    script:'My last key word is ROOT. Roots keep the plant in the ground so it doesn\'t fall over. They also drink water and nutrients from the soil — like straws underground!'
+  },
+  {
+    type:'fact', n:1, em:'🌍',
+    text:'Living things grow and change. Living things need food, water, and air to live.',
+    script:'Fact number one: Living things grow and change! Everything alive — plants, animals, and people — needs food, water, and air to stay healthy and alive.'
+  },
+  {
+    type:'fact', n:2, em:'☀️',
+    text:'Leaves use sunlight and air to make food. Food and water move through the stem to other plant parts.',
+    script:'Fact two: Leaves use sunlight and air to make food for the whole plant! Then the food and water travel through the stem to reach every single part of the plant.'
+  },
+  {
+    type:'fact', n:3, em:'🌿',
+    text:'The stem holds up the plant.',
+    script:'Fact number three: The stem holds up the plant! Without the stem, the plant would fall down and the leaves couldn\'t reach the sunlight to make food.'
+  },
+  {
+    type:'fact', n:4, em:'🌱',
+    text:'Roots keep the plant in the ground. Plants have roots that take in water and nutrients from the soil.',
+    script:'Fact four: Roots keep the plant in the ground and they soak up water and nutrients from the soil. The soil is like a big meal for the roots to eat!'
+  },
+  {
+    type:'fact', n:5, em:'🌳',
+    text:'Stems can be thin or thick. The thick stem of a tree is called a trunk.',
+    script:'And my last fact: Stems can be thin or very thick! When a stem is super thick — like a tree\'s — we call it a trunk. That\'s it for my facts — thank you for listening!'
+  },
+  {
+    type:'fav',
+    script:'My favorite thing about this lesson is that living things grow and change. Living things need food, water, and air to live! I thought it was so cool to learn that plants are alive — just like me!'
+  },
+  {
+    type:'go',
+    script:'Now let\'s watch what happens when a plant gets soil, water, and sunlight! I will show you each step. Watch carefully — you will see why all three things are so important for plants to grow!'
+  }
+];
+
+// ══════════════════════════════
+//   KEYWORD ILLUSTRATIONS
+// ══════════════════════════════
+function getKwIl(n) {
+  const F = 'font-family="Nunito,sans-serif"';
+  const il = [];
+
+  // KW1: Living (tree) vs Non-living (rock)
+  il[0] = '<svg width="100%" height="82" viewBox="0 0 260 82" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="65" y="11" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#2e7d32">LIVING 💚</text>'
+    + '<rect x="60" y="52" width="9" height="26" rx="3" fill="#795548"/>'
+    + '<ellipse cx="64" cy="37" rx="26" ry="21" fill="#4caf50"/>'
+    + '<ellipse cx="48" cy="48" rx="16" ry="13" fill="#66bb6a"/>'
+    + '<ellipse cx="80" cy="47" rx="15" ry="12" fill="#81c784"/>'
+    + '<ellipse cx="64" cy="22" rx="18" ry="15" fill="#a5d6a7"/>'
+    + '<text x="64" y="79" text-anchor="middle" ' + F + ' font-size="8" font-weight="700" fill="#388e3c">Grows &amp; Changes!</text>'
+    + '<line x1="130" y1="6" x2="130" y2="76" stroke="#e0e0e0" stroke-width="1.5" stroke-dasharray="5,3"/>'
+    + '<rect x="113" y="34" width="34" height="20" rx="10" fill="#fff3e0"/>'
+    + '<text x="130" y="48" text-anchor="middle" ' + F + ' font-size="13" font-weight="900" fill="#e65100">VS</text>'
+    + '<text x="196" y="11" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#757575">NON-LIVING 🪨</text>'
+    + '<ellipse cx="196" cy="58" rx="40" ry="20" fill="#9e9e9e"/>'
+    + '<ellipse cx="182" cy="50" rx="26" ry="15" fill="#bdbdbd"/>'
+    + '<ellipse cx="210" cy="48" rx="13" ry="9" fill="#e0e0e0" opacity=".8"/>'
+    + '<ellipse cx="176" cy="62" rx="9" ry="6" fill="#eeeeee" opacity=".6"/>'
+    + '<text x="196" y="79" text-anchor="middle" ' + F + ' font-size="8" font-weight="700" fill="#757575">Cannot grow!</text>'
+    + '</svg>';
+
+  // KW2: Leaf with sunlight arrows
+  il[1] = '<svg width="100%" height="82" viewBox="0 0 260 82" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="130" y="10" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#1b5e20">Leaves make food using SUNLIGHT!</text>'
+    + '<circle cx="36" cy="47" r="20" fill="#ffca28"/>'
+    + '<line x1="36" y1="22" x2="36" y2="14" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="55" y1="28" x2="61" y2="22" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="62" y1="47" x2="70" y2="47" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="55" y1="66" x2="61" y2="72" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="17" y1="28" x2="11" y2="22" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="10" y1="47" x2="2" y2="47" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="17" y1="66" x2="11" y2="72" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>'
+    + '<line x1="60" y1="43" x2="106" y2="40" stroke="#ffe082" stroke-width="2.5" stroke-dasharray="5,3"/>'
+    + '<polygon points="106,36 116,40 106,44" fill="#ffe082"/>'
+    + '<path d="M172,78 C140,52 124,18 172,5 C220,18 204,52 172,78Z" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>'
+    + '<line x1="172" y1="78" x2="172" y2="7" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>'
+    + '<line x1="172" y1="62" x2="150" y2="48" stroke="#388e3c" stroke-width="1.2" opacity=".7"/>'
+    + '<line x1="172" y1="46" x2="147" y2="34" stroke="#388e3c" stroke-width="1.2" opacity=".7"/>'
+    + '<line x1="172" y1="62" x2="194" y2="48" stroke="#388e3c" stroke-width="1.2" opacity=".7"/>'
+    + '<line x1="172" y1="46" x2="197" y2="34" stroke="#388e3c" stroke-width="1.2" opacity=".7"/>'
+    + '<text x="172" y="82" text-anchor="middle" ' + F + ' font-size="8" font-weight="700" fill="#1b5e20">= Plant Kitchen! 🍽️</text>'
+    + '</svg>';
+
+  // KW3: Stem as food & water highway
+  il[2] = '<svg width="100%" height="82" viewBox="0 0 260 82" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="130" y="10" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#4e342e">The STEM is the plant\'s highway!</text>'
+    + '<rect x="122" y="20" width="16" height="52" rx="8" fill="#795548"/>'
+    + '<rect x="124" y="23" width="5" height="47" rx="2.5" fill="#29b6f6" opacity=".9"/>'
+    + '<rect x="131" y="23" width="5" height="47" rx="2.5" fill="#ffb74d" opacity=".9"/>'
+    + '<ellipse cx="130" cy="20" rx="26" ry="16" fill="#66bb6a"/>'
+    + '<ellipse cx="112" cy="27" rx="15" ry="10" fill="#81c784"/>'
+    + '<ellipse cx="148" cy="27" rx="14" ry="10" fill="#81c784"/>'
+    + '<path d="M122,72 Q106,80 92,76" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>'
+    + '<path d="M138,72 Q154,80 168,76" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>'
+    + '<path d="M130,72 L130,82" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>'
+    + '<rect x="54" y="40" width="62" height="18" rx="9" fill="#e3f2fd"/>'
+    + '<text x="85" y="53" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#1565c0">💧 Water ↑</text>'
+    + '<rect x="146" y="40" width="60" height="18" rx="9" fill="#fff3e0"/>'
+    + '<text x="176" y="53" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#e65100">🍎 Food ↑</text>'
+    + '<line x1="116" y1="49" x2="122" y2="49" stroke="#1565c0" stroke-width="1.5"/>'
+    + '<line x1="143" y1="49" x2="148" y2="49" stroke="#e65100" stroke-width="1.5"/>'
+    + '</svg>';
+
+  // KW4: Root underground cross-section
+  il[3] = '<svg width="100%" height="82" viewBox="0 0 260 82" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="130" y="10" text-anchor="middle" ' + F + ' font-size="9" font-weight="800" fill="#3e2723">Roots absorb WATER from soil!</text>'
+    + '<rect x="0" y="14" width="260" height="26" fill="#e3f2fd" opacity=".35"/>'
+    + '<rect x="0" y="40" width="260" height="42" fill="#a1887f" opacity=".22"/>'
+    + '<line x1="0" y1="40" x2="260" y2="40" stroke="#5d4037" stroke-width="2"/>'
+    + '<text x="6" y="55" ' + F + ' font-size="8" font-weight="700" fill="#5d4037">Soil</text>'
+    + '<rect x="125" y="18" width="10" height="24" rx="5" fill="#795548"/>'
+    + '<ellipse cx="130" cy="20" rx="20" ry="13" fill="#66bb6a"/>'
+    + '<line x1="130" y1="40" x2="130" y2="77" stroke="#6d4c41" stroke-width="6" stroke-linecap="round"/>'
+    + '<path d="M130,50 Q104,52 84,63" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+    + '<path d="M130,60 Q156,63 176,74" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+    + '<path d="M130,46 Q112,45 96,40" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round" fill="none"/>'
+    + '<path d="M130,65 Q148,67 166,60" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round" fill="none"/>'
+    + '<path d="M84,63 Q76,70 70,76" stroke="#8d6e63" stroke-width="2" stroke-linecap="round" fill="none"/>'
+    + '<path d="M176,74 Q184,70 190,76" stroke="#8d6e63" stroke-width="2" stroke-linecap="round" fill="none"/>'
+    + '<text x="50" y="62" font-family="sans-serif" font-size="13">💧</text>'
+    + '<text x="192" y="70" font-family="sans-serif" font-size="13">💧</text>'
+    + '<text x="106" y="80" font-family="sans-serif" font-size="11">💧</text>'
+    + '<text x="152" y="57" font-family="sans-serif" font-size="10">💧</text>'
+    + '</svg>';
+
+  return il[n-1] || '';
+}
+
+let cur = 0;
+
+function buildSlides() {
+  const body = document.getElementById('slidesBody');
+  const dots = document.getElementById('pdots');
+  body.innerHTML = ''; dots.innerHTML = '';
+  SLIDES.forEach((s,i) => {
+    // dot
+    const d = document.createElement('div');
+    d.className = 'pd' + (i===0?' act':'');
+    d.id = 'pd'+i; dots.appendChild(d);
+    // slide
+    const div = document.createElement('div');
+    div.className = 'slide' + (i===0?' act':'');
+    div.id = 'sl'+i;
+    if (s.type==='title') {
+      div.classList.add('sl-title');
+      div.style.position='relative';
+      div.innerHTML = `
+        <div class="title-deco">
+          <svg width="100%" height="100%" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="opacity:.18">
+            <!-- Left big tree -->
+            <rect x="28" y="190" width="14" height="90" rx="5" fill="#795548"/>
+            <ellipse cx="35" cy="158" rx="42" ry="50" fill="#4caf50"/>
+            <ellipse cx="18" cy="185" rx="26" ry="32" fill="#66bb6a"/>
+            <ellipse cx="54" cy="180" rx="24" ry="30" fill="#81c784"/>
+            <ellipse cx="35" cy="128" rx="28" ry="36" fill="#a5d6a7"/>
+            <!-- Right big tree -->
+            <rect x="358" y="190" width="14" height="90" rx="5" fill="#795548"/>
+            <ellipse cx="365" cy="155" rx="38" ry="48" fill="#4caf50"/>
+            <ellipse cx="346" cy="182" rx="24" ry="30" fill="#66bb6a"/>
+            <ellipse cx="382" cy="178" rx="22" ry="28" fill="#81c784"/>
+            <!-- Bottom flowers -->
+            <circle cx="80" cy="295" r="10" fill="#f48fb1"/>
+            <circle cx="80" cy="278" r="8" fill="#ffd54f"/>
+            <rect x="78" y="285" width="4" height="18" rx="2" fill="#66bb6a"/>
+            <circle cx="320" cy="295" r="10" fill="#80deea"/>
+            <circle cx="320" cy="278" r="8" fill="#fff176"/>
+            <rect x="318" y="285" width="4" height="18" rx="2" fill="#66bb6a"/>
+            <circle cx="200" cy="305" r="11" fill="#ce93d8"/>
+            <circle cx="200" cy="287" r="9" fill="#ffe082"/>
+            <rect x="198" y="295" width="4" height="18" rx="2" fill="#4caf50"/>
+            <!-- Small flowers scattered -->
+            <circle cx="140" cy="290" r="7" fill="#f48fb1" opacity=".7"/>
+            <circle cx="140" cy="278" r="5" fill="#ffd54f" opacity=".7"/>
+            <rect x="138.5" y="283" width="3" height="12" rx="1.5" fill="#81c784" opacity=".7"/>
+            <circle cx="260" cy="288" r="7" fill="#80cbc4" opacity=".7"/>
+            <circle cx="260" cy="276" r="5" fill="#fff176" opacity=".7"/>
+            <rect x="258.5" y="281" width="3" height="12" rx="1.5" fill="#81c784" opacity=".7"/>
+            <!-- Leaves scattered -->
+            <ellipse cx="110" cy="240" rx="18" ry="8" fill="#a5d6a7" transform="rotate(-30 110 240)"/>
+            <ellipse cx="290" cy="245" rx="16" ry="7" fill="#c5e1a5" transform="rotate(25 290 245)"/>
+          </svg>
+        </div>
+        <span class="big-em">🌿</span>
+        <h2>Plants Are<br>Living Things!</h2>
+        <div class="sub">A Science Lesson 🎤</div>
+        <div class="presenter-tag">👦 Presented by Kevin</div>`;
+
+    } else if (s.type==='kw') {
+      div.innerHTML = `<div class="badge">Key Word ${s.n} of 4</div>
+        <div class="kw-il">${getKwIl(s.n)}</div>
+        <div class="kw-card">
+          <div class="kw-lbl">Word</div>
+          <div class="kw-w">${s.w} <span class="kw-em">${s.em}</span></div>
+          <div class="kw-dlbl">Definition</div>
+          <div class="kw-def">${s.def}</div>
+        </div>`;
+    } else if (s.type==='fact') {
+      div.innerHTML = `<div class="badge">Key Fact ${s.n} of 5</div>
+        <div class="fc-card">
+          <div class="fc-num">${s.n} <span class="fc-em">${s.em}</span></div>
+          <div class="fc-text">${s.text}</div>
+        </div>`;
+    } else if (s.type==='fav') {
+      div.innerHTML = `
+        <div class="badge">⭐ My Favorite Part</div>
+        <div class="fav-display">
+          <div class="fav-open-q">My favorite thing about this lesson is...</div>
+          <div class="fav-quote-text">
+            that living things grow and change. Living things need food, water, and air to live!
+          </div>
+          <div class="fav-name">— Kevin ✏️</div>
+        </div>`;
+    } else if (s.type==='go') {
+      div.classList.add('sl-go');
+      div.innerHTML = `<div style="font-size:clamp(2.5rem,10vw,4rem);margin-bottom:12px;">🌱💧☀️</div>
+        <h2>Now Let's Grow a Plant!</h2>
+        <p>Soil → Water → Sunlight</p>
+        <p style="font-size:.85rem;color:#7cb342;margin-top:4px;">See why each one matters!</p>
+        <button class="btn-go" onclick="goS2()">Watch It Grow! 🌿</button>`;
+    }
+    body.appendChild(div);
+  });
+  syncUI();
+}
+
+function syncUI() {
+  document.getElementById('scTxt').textContent = SLIDES[cur].script;
+  document.getElementById('slideCt').textContent = `${cur+1} / ${SLIDES.length}`;
+  document.getElementById('bPrev').style.opacity = cur===0?'0.38':'1';
+  document.getElementById('bNext').textContent = cur===SLIDES.length-1?'See Animation →':'Next →';
+  SLIDES.forEach((_,i)=>{
+    const d=document.getElementById('pd'+i);
+    if(d) d.className='pd'+(i===cur?' act':i<cur?' done':'');
+  });
+}
+
+function prevSlide(){
+  if(cur===0) return;
+  const leaving=cur;
+  document.getElementById('sl'+leaving).className='slide exit';
+  cur--;
+  setTimeout(()=>{
+    document.getElementById('sl'+leaving).className='slide';
+    document.getElementById('sl'+cur).className='slide act';
+    syncUI();
+  },320);
+  // update dots/counter immediately so UI feels responsive
+  syncUI();
+}
+
+function nextSlide(){
+  if(cur===SLIDES.length-1){goS2();return;}
+  const leaving=cur;
+  document.getElementById('sl'+leaving).className='slide exit';
+  cur++;
+  setTimeout(()=>{
+    document.getElementById('sl'+leaving).className='slide';
+    document.getElementById('sl'+cur).className='slide act';
+    syncUI();
+  },320);
+  syncUI();
+}
+
+function goS2(){
+  document.getElementById('s1').classList.add('off');
+  document.getElementById('s2').classList.remove('off');
+  initS2();
+}
+function goS1(){
+  document.getElementById('s2').classList.add('off');
+  document.getElementById('s1').classList.remove('off');
+}
+
+// ══════════════════════════════
+//   STAGE 2 STATE
+// ══════════════════════════════
+let soilOk=false, waterLv=0, sunLv=0, celebrated=false;
+const MAX_W=4, MAX_S=3;
+
+const GROWTH=[
+  {h:0,bW:0,tW:0},
+  {h:75,bW:9,tW:3.4},
+  {h:118,bW:12,tW:4.8},
+  {h:165,bW:16,tW:6},
+  {h:215,bW:20,tW:7.2}
+];
+const LF  =['#d4edaa','#b5d97a','#7bc143','#2d8a1e'];
+const LST =['#a8c97a','#8ab84e','#5a9a2a','#1a6b10'];
+const LV  =['#96bb6e','#7aaa40','#4a8920','#0e5a08'];
+const LP  =[{hr:.26,s:-1},{hr:.26,s:1},{hr:.46,s:-1},{hr:.46,s:1},{hr:.64,s:-1},{hr:.64,s:1},{hr:.80,s:-1},{hr:.80,s:1}];
+
+const NS='http://www.w3.org/2000/svg';
+const mkSvg=(t,a)=>{const e=document.createElementNS(NS,t);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e;};
+
+function initS2(){
+  soilOk=false;waterLv=0;sunLv=0;celebrated=false;
+  buildSunRays();buildGrass();buildRocks();
+  const soil=document.getElementById('soil');
+  soil.className='g-soil rocky';soil.onclick=onSoilClick;
+  document.getElementById('btnFix').style.display='none';
+  document.getElementById('cloudBtn').style.display='none';
+  document.getElementById('cloudBtn').onclick=onCloudClick;
+  document.getElementById('soilHint').style.display='block';
+  document.getElementById('sunH').style.display='none';
+  document.getElementById('sun').onclick=onSunClick;
+  drawPlant();updateHUD();
+}
+
+function buildSunRays(){
+  const ring=document.getElementById('sunRing'); ring.innerHTML='';
+  for(let i=0;i<12;i++){
+    const r=document.createElement('div');
+    r.className='sray';
+    const len=14+(i%3)*6;
+    r.style.height=len+'px';
+    r.style.transform=`rotate(${(i/12)*360}deg) translateY(-43px)`;
+    ring.appendChild(r);
+  }
+}
+
+function buildGrass(){
+  const g=document.getElementById('grass'); g.innerHTML='';
+  for(let i=0;i<48;i++){
+    const t=document.createElement('div');
+    t.style.cssText=`position:absolute;bottom:0;
+      left:${Math.random()*100}%;
+      width:${4+Math.random()*5}px;height:${9+Math.random()*14}px;
+      background:hsl(${108+Math.random()*22},58%,${30+Math.random()*22}%);
+      border-radius:60% 60% 0 0;
+      transform:rotate(${(Math.random()-.5)*22}deg);`;
+    g.appendChild(t);
+  }
+}
+
+function buildRocks(){
+  const rl=document.getElementById('rocksLayer'); rl.innerHTML='';
+  for(let i=0;i<26;i++){
+    const r=document.createElement('div');
+    const rw=12+Math.random()*30, rh=rw*(.5+Math.random()*.35);
+    r.className='rock';
+    r.style.cssText=`width:${rw}px;height:${rh}px;left:${Math.random()*93}%;top:${6+Math.random()*70}%;`;
+    rl.appendChild(r);
+  }
+}
+
+/* ── Soil interactions ── */
+function onSoilClick(){
+  if(soilOk) return;
+  shakeSoil();
+  showPopup('🪨','Oops! Rocky Soil!',
+    "Plants can't grow here! Rocky soil is too hard for roots to spread. Rocks block water, and there are no nutrients for roots to eat.\n\nWe need to replace this with good soil first!");
+  document.getElementById('btnFix').style.display='block';
+}
+
+function shakeSoil(){
+  const soil=document.getElementById('soil');
+  soil.animate([
+    {transform:'translateX(0)'},{transform:'translateX(-7px)'},
+    {transform:'translateX(7px)'},{transform:'translateX(-5px)'},
+    {transform:'translateX(5px)'},{transform:'translateX(0)'}
+  ],{duration:360});
+}
+
+function fixSoil(){
+  soilOk=true;
+  const soil=document.getElementById('soil');
+  soil.className='g-soil good';
+  soil.onclick=null;
+  // Replace rocks with soil pebbles
+  const rl=document.getElementById('rocksLayer'); rl.innerHTML='';
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    const w=4+Math.random()*9;
+    p.style.cssText=`position:absolute;
+      width:${w}px;height:${w*.55}px;
+      background:rgba(155,100,48,.42);border-radius:50%;
+      left:${Math.random()*95}%;top:${12+Math.random()*68}%;`;
+    rl.appendChild(p);
+  }
+  document.getElementById('btnFix').style.display='none';
+  document.getElementById('soilHint').style.display='none';
+  document.getElementById('cloudBtn').style.display='block';
+  showPopup('🌍','Great Soil!',
+    "Rich soil is the foundation of plant life! Good soil has nutrients (plant food), tiny air pockets, and holds water so roots can drink.\n\nRoots can now spread freely to find water and food. Your plant is ready to grow!");
+  updateHUD();
+}
+
+/* ── Cloud / Water ── */
+function onCloudClick(){
+  if(!soilOk){ showPopup('⚠️','Fix the Soil First!','You need good soil before watering! Without soil, water just runs away and roots have nothing to hold onto.'); return; }
+  if(waterLv>=MAX_W) return;
+  dropWater();
+  waterLv++;
+  setTimeout(()=>{ drawPlant(); updateHUD(); checkCelebrate(); },660);
+  if(waterLv===1){
+    setTimeout(()=> showPopup('💧','Water is Life!',
+      "Water carries nutrients from the soil up through the stem to the leaves. Without water, a plant dries out and cannot survive.\n\nKeep watering to help the plant grow taller!"), 850);
+  }
+  if(waterLv===1) setTimeout(()=>{ document.getElementById('sunH').style.display='block'; },2200);
+}
+
+function dropWater(){
+  const scene=document.getElementById('s2');
+  const cbtn=document.getElementById('cloudBtn');
+  const sr=scene.getBoundingClientRect();
+  const cr=cbtn.getBoundingClientRect();
+  const cx=(cr.left-sr.left)+cr.width/2;
+  for(let i=0;i<14;i++){
+    const d=document.createElement('div');
+    const dx=cx-28+Math.random()*56;
+    const sz=5+Math.random()*4.5;
+    const startY=cr.bottom-sr.top;
+    d.style.cssText=`
+      position:absolute;left:${dx}px;top:${startY}px;
+      width:${sz}px;height:${sz*1.55}px;opacity:0;
+      background:radial-gradient(ellipse at 35% 20%,#e3f2fd,#29b6f6,#0277bd);
+      border-radius:50% 50% 48% 48% / 58% 58% 42% 42%;
+      pointer-events:none;z-index:16;`;
+    scene.appendChild(d);
+    const delay=i*68;
+    const fallY=80+Math.random()*65;
+    d.animate([
+      {opacity:0,transform:'translateY(0)'},
+      {opacity:1,transform:'translateY(12px)',offset:.1},
+      {opacity:.9,transform:`translateY(${fallY}px)`},
+      {opacity:0,transform:`translateY(${fallY+30}px) scaleY(.3) scaleX(1.6)`}
+    ],{duration:700+Math.random()*280,delay,fill:'forwards'}).onfinish=()=>d.remove();
+  }
+  // Ripple
+  setTimeout(()=>{
+    const rpl=document.createElement('div');
+    rpl.style.cssText=`position:absolute;left:50%;bottom:calc(17% + 9px);transform:translateX(-50%);
+      width:7px;height:4px;border:2.5px solid rgba(41,182,246,.72);border-radius:50%;
+      pointer-events:none;z-index:13;`;
+    scene.appendChild(rpl);
+    rpl.animate([{width:'7px',height:'4px',opacity:.85},{width:'70px',height:'24px',opacity:0}],{duration:560}).onfinish=()=>rpl.remove();
+  },320);
+}
+
+/* ── Sun ── */
+function onSunClick(){
+  if(!soilOk){ showPopup('⚠️','Fix Soil First!','Good soil is the foundation. Fix the soil, then add water, then let the sun shine!'); return; }
+  if(!waterLv){ showPopup('💧','Water the Plant First!','The roots need water before the leaves can use sunlight. Add some water first!'); return; }
+  pulseSun(); shootBeams();
+  if(sunLv<MAX_S){ sunLv++; setTimeout(()=>{ drawPlant(); updateHUD(); checkCelebrate(); },960); }
+  if(sunLv===0){
+    setTimeout(()=> showPopup('☀️','Sunlight is Energy!',
+      "Leaves use sunlight to make food through photosynthesis! Sunlight turns the leaves from pale to deep, rich green.\n\nWithout sunlight, leaves cannot make food and the plant will slowly die."), 1150);
+  }
+  if(sunLv>=1) document.getElementById('sunH').style.display='none';
+}
+
+function pulseSun(){
+  document.getElementById('sunBody').animate([
+    {boxShadow:'0 0 22px rgba(255,202,40,.65),0 0 55px rgba(255,143,0,.32)'},
+    {boxShadow:'0 0 58px rgba(255,220,50,.95),0 0 120px rgba(255,143,0,.72)'},
+    {boxShadow:'0 0 22px rgba(255,202,40,.65),0 0 55px rgba(255,143,0,.32)'}
+  ],{duration:960});
+}
+
+function shootBeams(){
+  const scene=document.getElementById('s2');
+  const sun=document.getElementById('sun');
+  const sr=scene.getBoundingClientRect();
+  const sunR=sun.getBoundingClientRect();
+  const ox=sunR.left-sr.left+sunR.width/2;
+  const oy=sunR.top-sr.top+sunR.height/2;
+  const cx=sr.width*.5; const cy=sr.height*.7;
+  const N=10;
+  for(let i=0;i<N;i++){
+    const tx=cx+(i-(N-1)/2)*20;
+    const ty=cy-50-Math.random()*50;
+    const dx=tx-ox,dy=ty-oy;
+    const len=Math.sqrt(dx*dx+dy*dy);
+    const ang=Math.atan2(dx,dy)*180/Math.PI;
+    const beam=document.createElement('div');
+    beam.style.cssText=`position:absolute;left:${ox}px;top:${oy}px;
+      width:${2+Math.random()*1.5}px;height:1px;
+      background:linear-gradient(180deg,rgba(255,238,80,.92),rgba(255,249,196,.5),transparent);
+      transform-origin:top center;transform:rotate(${ang}deg);
+      border-radius:3px;pointer-events:none;z-index:9;`;
+    scene.appendChild(beam);
+    const delay=i*55;
+    beam.animate([
+      {opacity:0,height:'0px'},
+      {opacity:.9,height:`${len*.5}px`,offset:.3},
+      {opacity:.6,height:`${len}px`,offset:.72},
+      {opacity:0,height:`${len}px`}
+    ],{duration:1350,delay,fill:'forwards'}).onfinish=()=>beam.remove();
+    if(i%3===0){
+      setTimeout(()=>{
+        const sp=document.createElement('div');
+        sp.style.cssText=`position:absolute;left:${tx}px;top:${ty}px;
+          width:10px;height:10px;border-radius:50%;
+          background:rgba(255,240,100,.88);
+          transform:translate(-50%,-50%) scale(0);
+          pointer-events:none;z-index:10;`;
+        scene.appendChild(sp);
+        sp.animate([
+          {transform:'translate(-50%,-50%) scale(0)',opacity:1},
+          {transform:'translate(-50%,-50%) scale(2.6)',opacity:0}
+        ],{duration:480}).onfinish=()=>sp.remove();
+      },delay+1350*.72);
+    }
+  }
+}
+
+/* ── Plant drawing ── */
+function trunkPath(h,bW,tW){
+  if(!h) return '';
+  return `M${-bW/2},0
+    C${-bW/2},${-h*.27} ${-tW/2-2.5},${-h*.57} ${-tW/2},${-h}
+    C${-tW/2+.5},${-h-1} ${tW/2-.5},${-h-1} ${tW/2},${-h}
+    C${tW/2+2.5},${-h*.57} ${bW/2},${-h*.27} ${bW/2},0Z`;
+}
+function leafPath(lw,lh){
+  return `M0,0 C${lw*.14},${-lh*1.18} ${lw*.6},${-lh*1.32} ${lw},${-lh*.05} C${lw*.6},${lh*.92} ${lw*.14},${lh*.88} 0,0Z`;
+}
+
+function drawPlant(){
+  const tG=document.getElementById('trunkG');
+  const bG=document.getElementById('branchG');
+  const lG=document.getElementById('leavesG');
+  const tipG=document.getElementById('tipG');
+  const lblG=document.getElementById('labelsG');
+  tG.innerHTML=''; bG.innerHTML=''; lG.innerHTML=''; tipG.innerHTML=''; lblG.innerHTML='';
+  if(!soilOk||!waterLv) return;
+  const {h,bW,tW}=GROWTH[waterLv];
+  const fc=LF[sunLv],sc=LST[sunLv],vc=LV[sunLv];
+
+  // ── Trunk ──
+  tG.appendChild(mkSvg('path',{d:trunkPath(h,bW,tW),fill:'#795548',stroke:'#4e342e','stroke-width':'0.9','stroke-linejoin':'round'}));
+  const bn=Math.floor(waterLv*1.7);
+  for(let i=1;i<=bn;i++){
+    const by=-(h*i/(bn+1));
+    const bx=bW*(1-(i/(bn+1))*.45)*.48;
+    tG.appendChild(mkSvg('path',{d:`M${-bx},${by} Q0,${by+2} ${bx},${by}`,fill:'none',stroke:'#4e342e','stroke-width':'0.7',opacity:'0.38'}));
+  }
+
+  // ── Branches (waterLv ≥ 3) ──
+  if(waterLv>=3){
+    const bScale=waterLv===4?1.0:0.72;
+    const bLen=bW*6.5*bScale, bH=h*0.78;
+    // Right branch
+    const rbPath=`M${tW/2},${-bH} C${tW/2+bW*2},${-bH-h*.03} ${tW/2+bLen*.5},${-bH+h*.04} ${tW/2+bLen},${-bH+h*.06}`;
+    bG.appendChild(mkSvg('path',{d:rbPath,fill:'none',stroke:'#6d4c41','stroke-width':String(2.8*bScale),'stroke-linecap':'round'}));
+    // Left branch
+    const lbPath=`M${-tW/2},${-bH} C${-tW/2-bW*2},${-bH-h*.03} ${-tW/2-bLen*.5},${-bH+h*.04} ${-tW/2-bLen},${-bH+h*.06}`;
+    bG.appendChild(mkSvg('path',{d:lbPath,fill:'none',stroke:'#6d4c41','stroke-width':String(2.8*bScale),'stroke-linecap':'round'}));
+    // Leaves on right branch tip
+    const rtx=tW/2+bLen, rty=-(bH-h*.06);
+    const rbl=mkSvg('g',{transform:`translate(${rtx},${rty}) rotate(-28)`});
+    const rlw=28*bScale,rlh=11*bScale;
+    rbl.appendChild(mkSvg('path',{d:leafPath(rlw,rlh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
+    rbl.appendChild(mkSvg('path',{d:`M0,0 Q${rlw*.5},${-rlh*.1} ${rlw*.88},${-rlh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.8','stroke-linecap':'round',opacity:'0.65'}));
+    bG.appendChild(rbl);
+    // Leaves on left branch tip
+    const ltx=-(tW/2+bLen), lty=-(bH-h*.06);
+    const lbl2=mkSvg('g',{transform:`translate(${ltx},${lty}) scale(-1,1) rotate(-28)`});
+    lbl2.appendChild(mkSvg('path',{d:leafPath(rlw,rlh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
+    lbl2.appendChild(mkSvg('path',{d:`M0,0 Q${rlw*.5},${-rlh*.1} ${rlw*.88},${-rlh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.8','stroke-linecap':'round',opacity:'0.65'}));
+    bG.appendChild(lbl2);
+  }
+
+  // ── Main leaves ──
+  const lCount=[0,2,4,6,8][waterLv];
+  const lScale=[0,.6,.76,.9,1.0][waterLv];
+  for(let i=0;i<lCount;i++){
+    const {hr,s}=LP[i];
+    const lx=s*(bW*(1-hr*.45)*.46);
+    const ly=-(h*hr);
+    const lw=38*lScale,lh=14.5*lScale;
+    const g=mkSvg('g',{transform:`translate(${lx},${ly}) scale(${s},1) rotate(-38)`});
+    g.appendChild(mkSvg('path',{d:leafPath(lw,lh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
+    g.appendChild(mkSvg('path',{d:`M0,0 Q${lw*.5},${-lh*.1} ${lw*.9},${-lh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.9','stroke-linecap':'round',opacity:'0.72'}));
+    for(let v=1;v<=3;v++){
+      const vx=lw*(.18+v*.2);
+      g.appendChild(mkSvg('line',{x1:vx,y1:String(-lh*.04),x2:vx+7*lScale,y2:String(-lh*.56),stroke:vc,'stroke-width':'0.55','stroke-linecap':'round',opacity:'0.4'}));
+    }
+    lG.appendChild(g);
+  }
+
+  // ── Tip bud ──
+  const bs=tW*1.18;
+  tipG.appendChild(mkSvg('ellipse',{cx:'0',cy:String(-h-bs*.4),rx:String(bs),ry:String(bs*1.28),fill:waterLv>=3?'#66bb6a':'#a5d6a7',stroke:'#388e3c','stroke-width':'0.85'}));
+
+  // ── Labels ──
+  function mkLabel(text, lx, ly, ax, ay, col){
+    const g=mkSvg('g',{});
+    // Connector line
+    g.appendChild(mkSvg('line',{x1:String(lx),y1:String(ly),x2:String(ax),y2:String(ay),stroke:'rgba(255,255,255,0.75)','stroke-width':'1.4','stroke-dasharray':'3,2','stroke-linecap':'round'}));
+    // Dot at anchor
+    g.appendChild(mkSvg('circle',{cx:String(ax),cy:String(ay),r:'2.8',fill:col,stroke:'white','stroke-width':'1.2'}));
+    // Pill bg
+    const tw=text.length*6.8+14;
+    g.appendChild(mkSvg('rect',{x:String(lx-tw/2),y:String(ly-11),width:String(tw),height:'18',rx:'9',fill:col,opacity:'0.92'}));
+    // Label text
+    const t=mkSvg('text',{x:String(lx),y:String(ly+3.5),'text-anchor':'middle','font-size':'10','fill':'white','font-weight':'bold','font-family':'sans-serif'});
+    t.textContent=text;
+    g.appendChild(t);
+    lblG.appendChild(g);
+  }
+
+  // Root label – at base
+  mkLabel('🌱 Root', 68, -14, bW*.5, -3, '#6d4c41');
+  // Stem label – mid trunk
+  if(waterLv>=2) mkLabel('🌿 Stem', 72, -(h*.5), bW*.5+1, -(h*.5), '#558b2f');
+  // Leaves label – upper area
+  if(waterLv>=2) mkLabel('🍃 Leaves', -80, -(h*.32), -(bW*1.6+14), -(h*.28), '#2e7d32');
+  // Branch label
+  if(waterLv>=3) mkLabel('🌲 Branch', 90, -(h*.82), tW/2+bW*3.5, -(h*.78), '#5d4037');
+}
+
+/* ── HUD ── */
+function updateHUD(){
+  const sl=['😶 Pale','🌿 Light Green','🌿🌿 Greener','🌿🌿🌿 Deep Green!'];
+  const rows=[
+    soilOk?'🌍 Soil: Rich & Ready ✅':'🪨 Soil: Rocky — Fix it!',
+    waterLv?`💧 Water: ${waterLv}/${MAX_W} ${'🔵'.repeat(waterLv)}${waterLv>=MAX_W?' ✅':''}`:'💧 Water: Not yet',
+    sunLv?`☀️ Leaves: ${sl[sunLv]}${sunLv>=MAX_S?' ✅':''}`:'☀️ Sunlight: Not yet'
+  ];
+  document.getElementById('s2hud').innerHTML=rows.join('<br>');
+}
+
+/* ── Celebration ── */
+function checkCelebrate(){
+  if(celebrated) return;
+  if(waterLv>=MAX_W && sunLv>=MAX_S){
+    celebrated=true;
+    setTimeout(()=>{
+      launchConfetti();
+      showPopup('🎉','Your Plant is Thriving!','Amazing job! Your plant got:\n\n🌍 Rich soil — roots spread and found food\n💧 Water — nutrients traveled up the stem\n☀️ Sunlight — leaves made food and turned deep green\n\nYou grew a healthy plant! 🌿');
+    },600);
+  }
+}
+
+function launchConfetti(){
+  const cols=['#f9c74f','#4caf50','#29b6f6','#ff7043','#ce93d8','#80deea'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');
+    c.className='conf';
+    const size=6+Math.random()*8;
+    c.style.cssText=`
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;top:-12px;
+      background:${cols[Math.floor(Math.random()*cols.length)]};
+      border-radius:${Math.random()>.5?'50%':'2px'};
+    `;
+    document.body.appendChild(c);
+    const endY=window.innerHeight+20;
+    c.animate([
+      {transform:`translateY(0) rotate(0deg)`,opacity:1},
+      {transform:`translateY(${endY*.4}px) rotate(${180+Math.random()*180}deg)`,opacity:1,offset:.6},
+      {transform:`translateY(${endY}px) rotate(${360+Math.random()*360}deg)`,opacity:0}
+    ],{duration:1800+Math.random()*1200,delay:Math.random()*600,fill:'forwards'}).onfinish=()=>c.remove();
+  }
+}
+
+/* ── Reset ── */
+function resetS2(){
+  soilOk=false;waterLv=0;sunLv=0;celebrated=false;
+  const soil=document.getElementById('soil');
+  soil.className='g-soil rocky'; soil.onclick=onSoilClick;
+  buildRocks();
+  document.getElementById('btnFix').style.display='none';
+  document.getElementById('cloudBtn').style.display='none';
+  document.getElementById('soilHint').style.display='block';
+  document.getElementById('sunH').style.display='none';
+  ['trunkG','branchG','leavesG','tipG','labelsG'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.innerHTML='';
+  });
+  updateHUD();
+}
+
+/* ── Popup ── */
+function showPopup(ico,tit,txt){
+  document.getElementById('pIco').textContent=ico;
+  document.getElementById('pTit').textContent=tit;
+  document.getElementById('pTxt').textContent=txt;
+  document.getElementById('ovl').classList.add('show');
+}
+function closePopup(){ document.getElementById('ovl').classList.remove('show'); }
+
+// ══════════════════════════════
+//   INIT
+// ══════════════════════════════
+function onFavInput(val) {
+  const prev = document.getElementById('favPreview');
+  if (!prev) return;
+  if (val.trim()) {
+    prev.textContent = '⭐ "' + val.trim() + '"';
+    prev.classList.add('show');
+  } else {
+    prev.classList.remove('show');
+  }
+}
+
+buildSlides();
+</script>
+</body>
+</html>
