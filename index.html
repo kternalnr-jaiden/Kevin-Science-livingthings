@@ -22,38 +22,82 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 #s1{display:flex;flex-direction:column;background:linear-gradient(155deg,#eaf5d8 0%,#fefde0 100%);}
 
 .s1-top{
-  padding:10px 16px 8px;
+  padding:10px 20px 8px;
   background:linear-gradient(90deg,#5a7a0a,#4caf50);
   color:#fff; display:flex; align-items:center; justify-content:space-between;
   flex-shrink:0;
 }
-.s1-top h1{font-family:'Fredoka One';font-size:clamp(1rem,3.5vw,1.35rem);letter-spacing:.4px;}
-.pdots{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;max-width:150px;}
+.s1-top h1{font-family:'Fredoka One';font-size:clamp(1rem,2.2vw,1.35rem);letter-spacing:.4px;}
+.pdots{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;max-width:200px;}
 .pd{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s;}
 .pd.act{background:#fff;transform:scale(1.35);}
 .pd.done{background:rgba(255,255,255,.72);}
 
-.s1-body{flex:1;position:relative;overflow:hidden;}
+/* Two-column body */
+.s1-body{
+  flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;
+}
+
+/* Left — slide content */
+.slides-pane{
+  flex:0 0 60%;position:relative;overflow:hidden;
+  border-right:2px solid rgba(90,122,10,.12);
+  background:linear-gradient(155deg,#eaf5d8 0%,#fefde0 100%);
+}
+
+/* Right — script */
+.script-pane{
+  flex:1;display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#fffde7 0%,#fff9e0 100%);
+  border-left:2px solid rgba(249,199,79,.4);
+  overflow:hidden;
+}
+.sc-header{
+  padding:14px 18px 10px;
+  border-bottom:2px solid rgba(249,199,79,.5);
+  flex-shrink:0;
+}
+.sc-lbl{
+  font-size:.72rem;font-weight:800;color:#e65100;
+  letter-spacing:1.2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.sc-lbl::before{content:'📖';font-size:.9rem;}
+.sc-body{
+  flex:1;overflow-y:auto;padding:16px 18px 12px;
+}
+.sc-txt{
+  font-size:clamp(1rem,1.6vw,1.15rem);
+  color:#4e342e;font-weight:700;line-height:1.72;
+}
+.sc-tip{
+  margin-top:14px;padding:10px 13px;
+  background:rgba(76,175,80,.1);border-radius:10px;
+  border-left:3px solid #66bb6a;
+  font-size:clamp(.78rem,1.2vw,.88rem);color:#2e7d32;
+  font-weight:700;line-height:1.5;display:none;
+}
+.sc-tip.show{display:block;}
 
 /* Slides */
 .slide{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:14px 18px;
+  padding:16px 20px;
   opacity:0;pointer-events:none;
-  transform:translateX(70px);
+  transform:translateX(50px);
   transition:opacity .38s ease,transform .38s cubic-bezier(.34,1.18,.64,1);
 }
 .slide.act{opacity:1;pointer-events:all;transform:translateX(0);}
-.slide.exit{opacity:0;transform:translateX(-60px);transition:opacity .32s ease,transform .32s ease;}
+.slide.exit{opacity:0;transform:translateX(-40px);transition:opacity .32s ease,transform .32s ease;}
 
 /* Title */
 .sl-title{text-align:center;}
-.big-em{font-size:clamp(3rem,12vw,5.5rem);line-height:1;margin-bottom:10px;display:block;
+.big-em{font-size:clamp(2.4rem,6vw,4rem);line-height:1;margin-bottom:8px;display:block;
   animation:floatEm 3s ease-in-out infinite;}
 @keyframes floatEm{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.sl-title h2{font-family:'Fredoka One';font-size:clamp(1.6rem,5vw,2.4rem);color:#2e7d32;line-height:1.18;}
-.sl-title .sub{font-size:clamp(.85rem,2.5vw,1.05rem);color:#6b8c2a;font-weight:700;margin-top:7px;}
+.sl-title h2{font-family:'Fredoka One';font-size:clamp(1.4rem,3vw,2rem);color:#2e7d32;line-height:1.18;}
+.sl-title .sub{font-size:clamp(.82rem,1.4vw,.95rem);color:#6b8c2a;font-weight:700;margin-top:6px;}
 
 /* Badge */
 .badge{
@@ -66,33 +110,33 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 
 /* Keyword card */
 .kw-card{
-  width:100%;max-width:460px;
+  width:100%;
   background:#fff;border-radius:22px;
   border:3px solid #5a7a0a;
-  padding:18px 20px;
+  padding:14px 18px;
   box-shadow:0 7px 24px rgba(90,122,10,.18);
 }
 .kw-lbl{font-size:.68rem;font-weight:800;color:#5a7a0a;letter-spacing:1px;text-transform:uppercase;}
-.kw-w{font-family:'Fredoka One';font-size:clamp(2rem,7vw,3rem);color:#2e7d32;line-height:1.05;}
-.kw-em{font-size:clamp(1.8rem,6vw,2.6rem);float:right;margin-top:-6px;}
-.kw-dlbl{font-size:.68rem;font-weight:800;color:#9e9d24;letter-spacing:1px;text-transform:uppercase;margin:11px 0 4px;}
-.kw-def{font-size:clamp(.92rem,2.8vw,1.1rem);font-weight:700;color:#33691e;line-height:1.45;}
+.kw-w{font-family:'Fredoka One';font-size:clamp(1.8rem,4vw,2.6rem);color:#2e7d32;line-height:1.05;}
+.kw-em{font-size:clamp(1.6rem,3.5vw,2.2rem);float:right;margin-top:-4px;}
+.kw-dlbl{font-size:.68rem;font-weight:800;color:#9e9d24;letter-spacing:1px;text-transform:uppercase;margin:9px 0 4px;}
+.kw-def{font-size:clamp(.88rem,1.5vw,1rem);font-weight:700;color:#33691e;line-height:1.45;}
 
 /* Fact card */
 .fc-card{
-  width:100%;max-width:460px;
+  width:100%;
   background:#fffde7;border-radius:22px;
   border:3px solid #cddc39;
-  padding:18px 20px;
+  padding:14px 18px;
   box-shadow:0 7px 24px rgba(205,220,57,.22);
 }
-.fc-num{font-family:'Fredoka One';font-size:clamp(2.2rem,8vw,3.4rem);color:#c6cc12;line-height:1;}
-.fc-em{font-size:clamp(1.8rem,6vw,2.4rem);float:right;margin-top:-8px;}
-.fc-text{font-size:clamp(.92rem,2.8vw,1.1rem);font-weight:700;color:#33691e;line-height:1.5;margin-top:5px;}
+.fc-num{font-family:'Fredoka One';font-size:clamp(2rem,4.5vw,2.8rem);color:#c6cc12;line-height:1;}
+.fc-em{font-size:clamp(1.6rem,3.5vw,2.2rem);float:right;margin-top:-6px;}
+.fc-text{font-size:clamp(.88rem,1.5vw,1rem);font-weight:700;color:#33691e;line-height:1.5;margin-top:5px;}
 
 /* Keyword illustration strip */
 .kw-il{
-  width:100%;max-width:460px;
+  width:100%;
   border-radius:16px;overflow:hidden;
   background:rgba(255,255,255,.55);
   border:2px solid rgba(90,122,10,.14);
@@ -115,19 +159,19 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 
 /* Fav display */
 .fav-display{
-  width:100%;max-width:460px;
+  width:100%;
   background:linear-gradient(135deg,#e8f5e9,#f9fbe7);
   border-radius:22px;border:3px solid #4caf50;
-  padding:20px 22px;
+  padding:18px 20px;
   box-shadow:0 7px 24px rgba(76,175,80,.2);
 }
 .fav-open-q{font-size:.72rem;font-weight:800;color:#7cb342;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
 .fav-quote-text{
   font-family:'Fredoka One',cursive;
-  font-size:clamp(1rem,3.2vw,1.25rem);color:#2e7d32;
+  font-size:clamp(.95rem,1.7vw,1.15rem);color:#2e7d32;
   line-height:1.5;
   background:#fff;border-radius:12px;
-  padding:13px 16px;
+  padding:13px 16px 13px 28px;
   border-left:5px solid #66bb6a;
   position:relative;
 }
@@ -167,8 +211,8 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 
 /* Go slide */
 .sl-go{text-align:center;}
-.sl-go h2{font-family:'Fredoka One';font-size:clamp(1.5rem,5vw,2rem);color:#2e7d32;margin-bottom:10px;}
-.sl-go p{font-size:clamp(.9rem,2.8vw,1.05rem);color:#558b2f;font-weight:700;margin-bottom:4px;}
+.sl-go h2{font-family:'Fredoka One';font-size:clamp(1.3rem,2.5vw,1.8rem);color:#2e7d32;margin-bottom:8px;}
+.sl-go p{font-size:clamp(.84rem,1.4vw,.96rem);color:#558b2f;font-weight:700;margin-bottom:3px;}
 .btn-go{
   margin-top:18px;padding:13px 32px;
   font-family:'Fredoka One';font-size:clamp(1.1rem,3.5vw,1.4rem);
@@ -180,15 +224,6 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 @keyframes pulsGo{0%,100%{box-shadow:0 6px 20px rgba(76,175,80,.4);}50%{box-shadow:0 6px 34px rgba(76,175,80,.75);}}
 .btn-go:hover{transform:scale(1.06);}
 .btn-go:active{transform:scale(.95);}
-
-/* Script panel */
-.script-wrap{
-  background:#fffde7;border-top:3px solid #f9c74f;
-  padding:8px 16px 9px;flex-shrink:0;
-  min-height:82px;max-height:115px;overflow-y:auto;
-}
-.sc-lbl{font-size:.68rem;font-weight:800;color:#e65100;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
-.sc-txt{font-size:clamp(.85rem,2.5vw,.97rem);color:#4e342e;font-weight:700;line-height:1.52;}
 
 /* Nav bar */
 .nav-bar{
@@ -247,6 +282,33 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
 .g-soil.rocky{background:linear-gradient(180deg,#9e9e9e 0%,#757575 38%,#616161 100%);}
 .g-soil.good{background:linear-gradient(180deg,#7b5230 0%,#5a3418 40%,#4a2c0a 100%);cursor:default;}
 .rock{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 26%,#d5d5d5,#9e9e9e,#6e6e6e);border:1.5px solid #616161;}
+
+/* Soil choice overlay */
+.soil-choice{
+  position:absolute;inset:0;z-index:50;
+  background:rgba(0,0,0,.48);
+  display:flex;align-items:center;justify-content:center;
+}
+.sc-box{
+  background:#fff;border-radius:28px;padding:28px 30px;
+  max-width:340px;width:88%;text-align:center;
+  box-shadow:0 18px 55px rgba(0,0,0,.3);
+}
+.sc-box h3{font-family:'Fredoka One';font-size:1.4rem;color:#2e7d32;margin-bottom:6px;}
+.sc-box p{font-size:.88rem;color:#555;font-weight:600;margin-bottom:20px;line-height:1.5;}
+.sc-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.sc-btn{
+  padding:13px 22px;border:none;border-radius:20px;
+  font-family:'Fredoka One';font-size:1.05rem;cursor:pointer;
+  transition:all .18s;box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+.sc-btn:hover{transform:translateY(-3px) scale(1.04);}
+.sc-btn:active{transform:scale(.95);}
+.sc-rocky{background:linear-gradient(135deg,#bdbdbd,#757575);color:#fff;}
+.sc-good{background:linear-gradient(135deg,#a1887f,#5d4037);color:#fff;}
+
+/* Root SVG inside soil */
+#rootSvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible;}
 
 /* Soil hint */
 .soil-hint{
@@ -349,10 +411,18 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
     <h1>🌿 Plants Are Living Things!</h1>
     <div class="pdots" id="pdots"></div>
   </div>
-  <div class="s1-body" id="slidesBody"></div>
-  <div class="script-wrap">
-    <div class="sc-lbl">📖 My Script — What to say:</div>
-    <div class="sc-txt" id="scTxt"></div>
+  <div class="s1-body">
+    <!-- Left: slide content -->
+    <div class="slides-pane" id="slidesBody"></div>
+    <!-- Right: script -->
+    <div class="script-pane">
+      <div class="sc-header">
+        <div class="sc-lbl">My Script — Read out loud!</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-txt" id="scTxt"></div>
+      </div>
+    </div>
   </div>
   <div class="nav-bar">
     <button class="bn bp" id="bPrev" onclick="prevSlide()">← Back</button>
@@ -415,8 +485,21 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
     <div class="cloud-hint">💧 Click to water!</div>
   </div>
 
+  <!-- Soil choice -->
+  <div class="soil-choice" id="soilChoice">
+    <div class="sc-box">
+      <div style="font-size:2.2rem;margin-bottom:8px;">🌱</div>
+      <h3>Choose Your Soil!</h3>
+      <p>What kind of soil will you start with?<br>Your choice will affect how plants grow!</p>
+      <div class="sc-btns">
+        <button class="sc-btn sc-rocky" onclick="chooseSoil('rocky')">🪨 Rocky Soil</button>
+        <button class="sc-btn sc-good" onclick="chooseSoil('good')">🌍 Good Soil</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Soil hint -->
-  <div class="soil-hint" id="soilHint">🪨 Click the rocky soil!</div>
+  <div class="soil-hint" id="soilHint" style="display:none;">🪨 Click the rocky soil!</div>
 
   <!-- Fix soil button -->
   <button class="btn-fix" id="btnFix" onclick="fixSoil()">🪣 Add Good Soil!</button>
@@ -425,6 +508,7 @@ body{font-family:'Nunito',sans-serif;background:#f0f9e8;}
   <div class="g-grass" id="grass"></div>
   <div class="g-soil rocky" id="soil" onclick="onSoilClick()">
     <div id="rocksLayer"></div>
+    <svg id="rootSvg" viewBox="0 0 400 80" preserveAspectRatio="none"></svg>
   </div>
 
   <!-- Plant SVG -->
@@ -765,35 +849,73 @@ function goS1(){
 //   STAGE 2 STATE
 // ══════════════════════════════
 let soilOk=false, waterLv=0, sunLv=0, celebrated=false;
-const MAX_W=4, MAX_S=3;
+const MAX_W=10, MAX_S=3;
 
 const GROWTH=[
-  {h:0,bW:0,tW:0},
-  {h:75,bW:9,tW:3.4},
-  {h:118,bW:12,tW:4.8},
-  {h:165,bW:16,tW:6},
-  {h:215,bW:20,tW:7.2}
+  {h:0,  bW:0,  tW:0  },
+  {h:38, bW:5,  tW:2.0},
+  {h:62, bW:7,  tW:2.8},
+  {h:84, bW:9,  tW:3.5},
+  {h:104,bW:11, tW:4.2},
+  {h:124,bW:13, tW:5.0},
+  {h:148,bW:15, tW:5.8},
+  {h:172,bW:17, tW:6.6},
+  {h:196,bW:19, tW:7.4},
+  {h:220,bW:21, tW:8.2},
+  {h:248,bW:24, tW:9.2},
 ];
 const LF  =['#d4edaa','#b5d97a','#7bc143','#2d8a1e'];
 const LST =['#a8c97a','#8ab84e','#5a9a2a','#1a6b10'];
 const LV  =['#96bb6e','#7aaa40','#4a8920','#0e5a08'];
-const LP  =[{hr:.26,s:-1},{hr:.26,s:1},{hr:.46,s:-1},{hr:.46,s:1},{hr:.64,s:-1},{hr:.64,s:1},{hr:.80,s:-1},{hr:.80,s:1}];
+const LP  =[
+  {hr:.20,s:-1},{hr:.20,s:1},
+  {hr:.34,s:-1},{hr:.34,s:1},
+  {hr:.47,s:-1},{hr:.47,s:1},
+  {hr:.59,s:-1},{hr:.59,s:1},
+  {hr:.70,s:-1},{hr:.70,s:1},
+  {hr:.80,s:-1},{hr:.80,s:1},
+  {hr:.88,s:-1},{hr:.88,s:1},
+  {hr:.94,s:-1},{hr:.94,s:1},
+];
+const LC=[0,2,2,4,4,6,6,8,10,12,16]; // leaf count per water level
+const LS=[0,.42,.50,.56,.62,.68,.74,.80,.86,.92,1.0]; // leaf scale
 
 const NS='http://www.w3.org/2000/svg';
 const mkSvg=(t,a)=>{const e=document.createElementNS(NS,t);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e;};
 
 function initS2(){
   soilOk=false;waterLv=0;sunLv=0;celebrated=false;
-  buildSunRays();buildGrass();buildRocks();
+  buildSunRays();buildGrass();
   const soil=document.getElementById('soil');
-  soil.className='g-soil rocky';soil.onclick=onSoilClick;
+  soil.className='g-soil rocky';soil.onclick=null;
+  document.getElementById('rocksLayer').innerHTML='';
+  document.getElementById('rootSvg').innerHTML='';
   document.getElementById('btnFix').style.display='none';
   document.getElementById('cloudBtn').style.display='none';
   document.getElementById('cloudBtn').onclick=onCloudClick;
-  document.getElementById('soilHint').style.display='block';
+  document.getElementById('soilHint').style.display='none';
   document.getElementById('sunH').style.display='none';
   document.getElementById('sun').onclick=onSunClick;
-  drawPlant();updateHUD();
+  document.getElementById('soilChoice').style.display='flex';
+  ['trunkG','branchG','leavesG','tipG','labelsG'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.innerHTML='';
+  });
+  updateHUD();
+}
+
+function chooseSoil(type){
+  document.getElementById('soilChoice').style.display='none';
+  if(type==='rocky'){
+    buildRocks();
+    const soil=document.getElementById('soil');
+    soil.className='g-soil rocky'; soil.onclick=onSoilClick;
+    document.getElementById('soilHint').style.display='block';
+    showPopup('🪨','Rocky Soil!',
+      "Rocky soil is too hard and has no nutrients. Rocks block water from reaching roots, and roots can't spread.\n\nClick the rocky ground to try planting — then see what happens!");
+  } else {
+    activateGoodSoil(true);
+  }
+  updateHUD();
 }
 
 function buildSunRays(){
@@ -838,7 +960,7 @@ function onSoilClick(){
   if(soilOk) return;
   shakeSoil();
   showPopup('🪨','Oops! Rocky Soil!',
-    "Plants can't grow here! Rocky soil is too hard for roots to spread. Rocks block water, and there are no nutrients for roots to eat.\n\nWe need to replace this with good soil first!");
+    "Plants can't grow here! Rocky soil is too hard for roots to spread. Rocks block water, and there are no nutrients for roots to eat.\n\nReplace this with good soil first!");
   document.getElementById('btnFix').style.display='block';
 }
 
@@ -851,29 +973,35 @@ function shakeSoil(){
   ],{duration:360});
 }
 
-function fixSoil(){
+function activateGoodSoil(isChoice){
   soilOk=true;
   const soil=document.getElementById('soil');
-  soil.className='g-soil good';
-  soil.onclick=null;
-  // Replace rocks with soil pebbles
+  soil.className='g-soil good'; soil.onclick=null;
+  // Pebble texture
   const rl=document.getElementById('rocksLayer'); rl.innerHTML='';
-  for(let i=0;i<20;i++){
+  for(let i=0;i<22;i++){
     const p=document.createElement('div');
     const w=4+Math.random()*9;
-    p.style.cssText=`position:absolute;
-      width:${w}px;height:${w*.55}px;
-      background:rgba(155,100,48,.42);border-radius:50%;
-      left:${Math.random()*95}%;top:${12+Math.random()*68}%;`;
+    p.style.cssText=`position:absolute;width:${w}px;height:${w*.55}px;
+      background:rgba(155,100,48,.38);border-radius:50%;
+      left:${Math.random()*95}%;top:${10+Math.random()*68}%;`;
     rl.appendChild(p);
   }
   document.getElementById('btnFix').style.display='none';
   document.getElementById('soilHint').style.display='none';
   document.getElementById('cloudBtn').style.display='block';
-  showPopup('🌍','Great Soil!',
-    "Rich soil is the foundation of plant life! Good soil has nutrients (plant food), tiny air pockets, and holds water so roots can drink.\n\nRoots can now spread freely to find water and food. Your plant is ready to grow!");
+  drawRoots();
+  if(!isChoice){
+    showPopup('🌍','Great Soil!',
+      "Rich soil is the foundation of plant life! Good soil has nutrients (plant food), tiny air pockets, and holds water so roots can drink.\n\nRoots can now spread freely. Your plant is ready to grow!");
+  } else {
+    showPopup('🌍','Good Soil — Smart Choice!',
+      "You picked rich, healthy soil! Good soil has nutrients (plant food), tiny air pockets, and holds water.\n\nNow add water so the plant can start growing! 💧");
+  }
   updateHUD();
 }
+
+function fixSoil(){ activateGoodSoil(false); }
 
 /* ── Cloud / Water ── */
 function onCloudClick(){
@@ -881,12 +1009,13 @@ function onCloudClick(){
   if(waterLv>=MAX_W) return;
   dropWater();
   waterLv++;
-  setTimeout(()=>{ drawPlant(); updateHUD(); checkCelebrate(); },660);
-  if(waterLv===1){
+  setTimeout(()=>{ drawPlant(); drawRoots(); updateHUD(); checkCelebrate(); },660);
+  if(waterLv===0){
     setTimeout(()=> showPopup('💧','Water is Life!',
       "Water carries nutrients from the soil up through the stem to the leaves. Without water, a plant dries out and cannot survive.\n\nKeep watering to help the plant grow taller!"), 850);
   }
-  if(waterLv===1) setTimeout(()=>{ document.getElementById('sunH').style.display='block'; },2200);
+  if(waterLv===0) setTimeout(()=>{ document.getElementById('sunH').style.display='block'; },2400);
+  if(waterLv===4) setTimeout(()=>{ document.getElementById('sunH').style.display='block'; },1200);
 }
 
 function dropWater(){
@@ -932,7 +1061,7 @@ function onSunClick(){
   if(!soilOk){ showPopup('⚠️','Fix Soil First!','Good soil is the foundation. Fix the soil, then add water, then let the sun shine!'); return; }
   if(!waterLv){ showPopup('💧','Water the Plant First!','The roots need water before the leaves can use sunlight. Add some water first!'); return; }
   pulseSun(); shootBeams();
-  if(sunLv<MAX_S){ sunLv++; setTimeout(()=>{ drawPlant(); updateHUD(); checkCelebrate(); },960); }
+  if(sunLv<MAX_S){ sunLv++; setTimeout(()=>{ drawPlant(); drawRoots(); updateHUD(); checkCelebrate(); },960); }
   if(sunLv===0){
     setTimeout(()=> showPopup('☀️','Sunlight is Energy!',
       "Leaves use sunlight to make food through photosynthesis! Sunlight turns the leaves from pale to deep, rich green.\n\nWithout sunlight, leaves cannot make food and the plant will slowly die."), 1150);
@@ -955,28 +1084,32 @@ function shootBeams(){
   const sunR=sun.getBoundingClientRect();
   const ox=sunR.left-sr.left+sunR.width/2;
   const oy=sunR.top-sr.top+sunR.height/2;
-  const cx=sr.width*.5; const cy=sr.height*.7;
-  const N=10;
+  // Target: center of the plant canopy area
+  const tx0=sr.width*0.5;
+  const ty0=sr.height*0.48;
+  const N=12;
   for(let i=0;i<N;i++){
-    const tx=cx+(i-(N-1)/2)*20;
-    const ty=cy-50-Math.random()*50;
-    const dx=tx-ox,dy=ty-oy;
+    // fan beams slightly around the canopy center
+    const spread=(i-(N-1)/2)*14;
+    const tx=tx0+spread;
+    const ty=ty0+(Math.abs(i-(N-1)/2)*3);
+    const dx=tx-ox, dy=ty-oy;
     const len=Math.sqrt(dx*dx+dy*dy);
     const ang=Math.atan2(dx,dy)*180/Math.PI;
     const beam=document.createElement('div');
     beam.style.cssText=`position:absolute;left:${ox}px;top:${oy}px;
-      width:${2+Math.random()*1.5}px;height:1px;
-      background:linear-gradient(180deg,rgba(255,238,80,.92),rgba(255,249,196,.5),transparent);
+      width:${1.8+Math.random()*1.8}px;height:1px;
+      background:linear-gradient(180deg,rgba(255,238,80,.94),rgba(255,249,196,.55),transparent);
       transform-origin:top center;transform:rotate(${ang}deg);
       border-radius:3px;pointer-events:none;z-index:9;`;
     scene.appendChild(beam);
-    const delay=i*55;
+    const delay=i*48;
     beam.animate([
       {opacity:0,height:'0px'},
-      {opacity:.9,height:`${len*.5}px`,offset:.3},
-      {opacity:.6,height:`${len}px`,offset:.72},
+      {opacity:.92,height:`${len*.5}px`,offset:.28},
+      {opacity:.65,height:`${len}px`,offset:.70},
       {opacity:0,height:`${len}px`}
-    ],{duration:1350,delay,fill:'forwards'}).onfinish=()=>beam.remove();
+    ],{duration:1300,delay,fill:'forwards'}).onfinish=()=>beam.remove();
     if(i%3===0){
       setTimeout(()=>{
         const sp=document.createElement('div');
@@ -988,9 +1121,9 @@ function shootBeams(){
         scene.appendChild(sp);
         sp.animate([
           {transform:'translate(-50%,-50%) scale(0)',opacity:1},
-          {transform:'translate(-50%,-50%) scale(2.6)',opacity:0}
+          {transform:'translate(-50%,-50%) scale(2.8)',opacity:0}
         ],{duration:480}).onfinish=()=>sp.remove();
-      },delay+1350*.72);
+      },delay+1300*.70);
     }
   }
 }
@@ -1020,94 +1153,154 @@ function drawPlant(){
 
   // ── Trunk ──
   tG.appendChild(mkSvg('path',{d:trunkPath(h,bW,tW),fill:'#795548',stroke:'#4e342e','stroke-width':'0.9','stroke-linejoin':'round'}));
-  const bn=Math.floor(waterLv*1.7);
+  const bn=Math.floor(waterLv*1.3)+1;
   for(let i=1;i<=bn;i++){
     const by=-(h*i/(bn+1));
     const bx=bW*(1-(i/(bn+1))*.45)*.48;
-    tG.appendChild(mkSvg('path',{d:`M${-bx},${by} Q0,${by+2} ${bx},${by}`,fill:'none',stroke:'#4e342e','stroke-width':'0.7',opacity:'0.38'}));
+    tG.appendChild(mkSvg('path',{d:`M${-bx},${by} Q0,${by+2} ${bx},${by}`,fill:'none',stroke:'#4e342e','stroke-width':'0.7',opacity:'0.36'}));
   }
 
-  // ── Branches (waterLv ≥ 3) ──
-  if(waterLv>=3){
-    const bScale=waterLv===4?1.0:0.72;
-    const bLen=bW*6.5*bScale, bH=h*0.78;
-    // Right branch
-    const rbPath=`M${tW/2},${-bH} C${tW/2+bW*2},${-bH-h*.03} ${tW/2+bLen*.5},${-bH+h*.04} ${tW/2+bLen},${-bH+h*.06}`;
-    bG.appendChild(mkSvg('path',{d:rbPath,fill:'none',stroke:'#6d4c41','stroke-width':String(2.8*bScale),'stroke-linecap':'round'}));
-    // Left branch
-    const lbPath=`M${-tW/2},${-bH} C${-tW/2-bW*2},${-bH-h*.03} ${-tW/2-bLen*.5},${-bH+h*.04} ${-tW/2-bLen},${-bH+h*.06}`;
-    bG.appendChild(mkSvg('path',{d:lbPath,fill:'none',stroke:'#6d4c41','stroke-width':String(2.8*bScale),'stroke-linecap':'round'}));
-    // Leaves on right branch tip
-    const rtx=tW/2+bLen, rty=-(bH-h*.06);
-    const rbl=mkSvg('g',{transform:`translate(${rtx},${rty}) rotate(-28)`});
-    const rlw=28*bScale,rlh=11*bScale;
-    rbl.appendChild(mkSvg('path',{d:leafPath(rlw,rlh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
-    rbl.appendChild(mkSvg('path',{d:`M0,0 Q${rlw*.5},${-rlh*.1} ${rlw*.88},${-rlh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.8','stroke-linecap':'round',opacity:'0.65'}));
-    bG.appendChild(rbl);
-    // Leaves on left branch tip
-    const ltx=-(tW/2+bLen), lty=-(bH-h*.06);
-    const lbl2=mkSvg('g',{transform:`translate(${ltx},${lty}) scale(-1,1) rotate(-28)`});
-    lbl2.appendChild(mkSvg('path',{d:leafPath(rlw,rlh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
-    lbl2.appendChild(mkSvg('path',{d:`M0,0 Q${rlw*.5},${-rlh*.1} ${rlw*.88},${-rlh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.8','stroke-linecap':'round',opacity:'0.65'}));
-    bG.appendChild(lbl2);
-  }
-
-  // ── Main leaves ──
-  const lCount=[0,2,4,6,8][waterLv];
-  const lScale=[0,.6,.76,.9,1.0][waterLv];
+  // ── Leaves ──
+  const lCount=LC[waterLv];
+  const lScale=LS[waterLv];
   for(let i=0;i<lCount;i++){
-    const {hr,s}=LP[i];
-    const lx=s*(bW*(1-hr*.45)*.46);
-    const ly=-(h*hr);
-    const lw=38*lScale,lh=14.5*lScale;
-    const g=mkSvg('g',{transform:`translate(${lx},${ly}) scale(${s},1) rotate(-38)`});
+    const idx=i % LP.length;
+    const {hr,s}=LP[idx];
+    // slight vertical stagger for double layers at higher levels
+    const hrAdj = i>=LP.length ? hr-0.06 : hr;
+    const lx=s*(bW*(1-hrAdj*.42)*.48);
+    const ly=-(h*hrAdj);
+    const lw=44*lScale, lh=16*lScale;
+    const rotOff=(i>=LP.length?-8:0);
+    const g=mkSvg('g',{transform:`translate(${lx},${ly}) scale(${s},1) rotate(${-36+rotOff})`});
     g.appendChild(mkSvg('path',{d:leafPath(lw,lh),fill:fc,stroke:sc,'stroke-width':'0.9','stroke-linejoin':'round'}));
-    g.appendChild(mkSvg('path',{d:`M0,0 Q${lw*.5},${-lh*.1} ${lw*.9},${-lh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.9','stroke-linecap':'round',opacity:'0.72'}));
+    g.appendChild(mkSvg('path',{d:`M0,0 Q${lw*.5},${-lh*.1} ${lw*.9},${-lh*.05}`,fill:'none',stroke:vc,'stroke-width':'0.85','stroke-linecap':'round',opacity:'0.7'}));
     for(let v=1;v<=3;v++){
       const vx=lw*(.18+v*.2);
-      g.appendChild(mkSvg('line',{x1:vx,y1:String(-lh*.04),x2:vx+7*lScale,y2:String(-lh*.56),stroke:vc,'stroke-width':'0.55','stroke-linecap':'round',opacity:'0.4'}));
+      g.appendChild(mkSvg('line',{x1:vx,y1:String(-lh*.04),x2:vx+8*lScale,y2:String(-lh*.55),stroke:vc,'stroke-width':'0.55','stroke-linecap':'round',opacity:'0.38'}));
     }
     lG.appendChild(g);
   }
 
-  // ── Tip bud ──
-  const bs=tW*1.18;
-  tipG.appendChild(mkSvg('ellipse',{cx:'0',cy:String(-h-bs*.4),rx:String(bs),ry:String(bs*1.28),fill:waterLv>=3?'#66bb6a':'#a5d6a7',stroke:'#388e3c','stroke-width':'0.85'}));
-
-  // ── Labels ──
-  function mkLabel(text, lx, ly, ax, ay, col){
-    const g=mkSvg('g',{});
-    // Connector line
-    g.appendChild(mkSvg('line',{x1:String(lx),y1:String(ly),x2:String(ax),y2:String(ay),stroke:'rgba(255,255,255,0.75)','stroke-width':'1.4','stroke-dasharray':'3,2','stroke-linecap':'round'}));
-    // Dot at anchor
-    g.appendChild(mkSvg('circle',{cx:String(ax),cy:String(ay),r:'2.8',fill:col,stroke:'white','stroke-width':'1.2'}));
-    // Pill bg
-    const tw=text.length*6.8+14;
-    g.appendChild(mkSvg('rect',{x:String(lx-tw/2),y:String(ly-11),width:String(tw),height:'18',rx:'9',fill:col,opacity:'0.92'}));
-    // Label text
-    const t=mkSvg('text',{x:String(lx),y:String(ly+3.5),'text-anchor':'middle','font-size':'10','fill':'white','font-weight':'bold','font-family':'sans-serif'});
-    t.textContent=text;
-    g.appendChild(t);
-    lblG.appendChild(g);
+  // ── Tip bud / flower ──
+  const bs=tW*1.2;
+  if(waterLv>=9&&sunLv>=2){
+    // Flower at tip
+    const petCols=['#f48fb1','#ff8a65','#fff176','#80deea','#ce93d8'];
+    for(let p=0;p<5;p++){
+      const pa=p*(2*Math.PI/5);
+      tipG.appendChild(mkSvg('ellipse',{cx:String(Math.cos(pa)*bs*1.4),cy:String(-h-bs*.4+Math.sin(pa)*bs*1.4),rx:String(bs*.85),ry:String(bs*.55),fill:petCols[p],stroke:'rgba(255,255,255,.4)','stroke-width':'0.5'}));
+    }
+    tipG.appendChild(mkSvg('circle',{cx:'0',cy:String(-h-bs*.4),r:String(bs*.7),fill:'#ffe082',stroke:'#ffb300','stroke-width':'1'}));
+  } else {
+    tipG.appendChild(mkSvg('ellipse',{cx:'0',cy:String(-h-bs*.4),rx:String(bs),ry:String(bs*1.28),
+      fill:waterLv>=6?'#66bb6a':'#a5d6a7',stroke:'#388e3c','stroke-width':'0.85'}));
   }
 
-  // Root label – at base
-  mkLabel('🌱 Root', 68, -14, bW*.5, -3, '#6d4c41');
-  // Stem label – mid trunk
-  if(waterLv>=2) mkLabel('🌿 Stem', 72, -(h*.5), bW*.5+1, -(h*.5), '#558b2f');
-  // Leaves label – upper area
-  if(waterLv>=2) mkLabel('🍃 Leaves', -80, -(h*.32), -(bW*1.6+14), -(h*.28), '#2e7d32');
-  // Branch label
-  if(waterLv>=3) mkLabel('🌲 Branch', 90, -(h*.82), tW/2+bW*3.5, -(h*.78), '#5d4037');
+  // ── Part Labels ──
+  function mkLabel(text, lx, ly, ax, ay, col){
+    const g=mkSvg('g',{});
+    g.appendChild(mkSvg('line',{x1:String(lx),y1:String(ly),x2:String(ax),y2:String(ay),stroke:'rgba(255,255,255,.8)','stroke-width':'1.5','stroke-dasharray':'4,2.5','stroke-linecap':'round'}));
+    g.appendChild(mkSvg('circle',{cx:String(ax),cy:String(ay),r:'3',fill:col,stroke:'white','stroke-width':'1.2'}));
+    const tw=text.length*6.4+16;
+    g.appendChild(mkSvg('rect',{x:String(lx-tw/2),y:String(ly-11),width:String(tw),height:'19',rx:'9.5',fill:col,opacity:'0.93'}));
+    const t=mkSvg('text',{x:String(lx),y:String(ly+4),'text-anchor':'middle','font-size':'10.5','fill':'white','font-weight':'bold','font-family':'sans-serif'});
+    t.textContent=text; g.appendChild(t); lblG.appendChild(g);
+  }
+
+  mkLabel('🌱 Root',  70, -12, bW*.5+1, -2, '#6d4c41');
+  if(waterLv>=3) mkLabel('🌿 Stem', 76, -(h*.48), bW*.5+2, -(h*.48), '#558b2f');
+  if(waterLv>=4) mkLabel('🍃 Leaves', -82, -(h*.30), -(bW*1.7+12), -(h*.26), '#2e7d32');
+}
+
+/* ── Roots in soil ── */
+function drawRoots(){
+  const svg=document.getElementById('rootSvg');
+  svg.innerHTML='';
+  if(!soilOk) return;
+  // Root depth/spread scales with waterLv
+  const lvl=Math.min(waterLv,10);
+  const spread=20+lvl*18;   // max horizontal spread
+  const depth=10+lvl*6.5;   // max depth in viewBox (0-80)
+  const op=Math.min(0.28+lvl*.07, 0.85);
+  const col='#6d4c41';
+
+  // Taproot (central)
+  const tap=document.createElementNS(NS,'path');
+  tap.setAttribute('d',`M200,0 C200,${depth*.3} 200,${depth*.65} 200,${depth}`);
+  tap.setAttribute('stroke',col); tap.setAttribute('stroke-width',String(2.5+lvl*.22));
+  tap.setAttribute('stroke-linecap','round'); tap.setAttribute('fill','none');
+  tap.setAttribute('opacity',String(op)); svg.appendChild(tap);
+
+  if(lvl<2) return;
+  // Lateral roots — left side
+  const laterals=[
+    {y:.28,ang:-42,len:.55},
+    {y:.52,ang:-55,len:.72},
+    {y:.72,ang:-38,len:.48},
+    {y:.38,ang:-68,len:.38},
+    {y:.62,ang:-28,len:.35},
+  ];
+  laterals.forEach(({y,ang,len},ri)=>{
+    if(ri>=Math.floor(lvl/2+1)) return;
+    const ry=depth*y;
+    const rx=spread*len;
+    const rad=ang*Math.PI/180;
+    const ex=200+Math.cos(rad)*rx, ey=ry+Math.sin(rad)*rx;
+    const path=document.createElementNS(NS,'path');
+    path.setAttribute('d',`M200,${ry} Q${200+Math.cos(rad)*rx*.4},${ry+Math.sin(rad)*rx*.5} ${ex},${ey}`);
+    path.setAttribute('stroke',col); path.setAttribute('stroke-width',String(1.4+lvl*.08));
+    path.setAttribute('stroke-linecap','round'); path.setAttribute('fill','none');
+    path.setAttribute('opacity',String(op*.95)); svg.appendChild(path);
+    // Fine root tips
+    if(lvl>=5){
+      const tip1=document.createElementNS(NS,'path');
+      tip1.setAttribute('d',`M${ex},${ey} Q${ex+8},${ey-5} ${ex+14},${ey-3}`);
+      tip1.setAttribute('stroke',col); tip1.setAttribute('stroke-width','0.9');
+      tip1.setAttribute('stroke-linecap','round'); tip1.setAttribute('fill','none');
+      tip1.setAttribute('opacity',String(op*.7)); svg.appendChild(tip1);
+    }
+  });
+  // Mirror — right side
+  laterals.forEach(({y,ang,len},ri)=>{
+    if(ri>=Math.floor(lvl/2+1)) return;
+    const ry=depth*y;
+    const rx=spread*len;
+    const rad=(-ang)*Math.PI/180;
+    const ex=200+Math.cos(rad)*rx, ey=ry+Math.sin(rad)*rx;
+    const path=document.createElementNS(NS,'path');
+    path.setAttribute('d',`M200,${ry} Q${200+Math.cos(rad)*rx*.4},${ry+Math.sin(rad)*rx*.5} ${ex},${ey}`);
+    path.setAttribute('stroke',col); path.setAttribute('stroke-width',String(1.4+lvl*.08));
+    path.setAttribute('stroke-linecap','round'); path.setAttribute('fill','none');
+    path.setAttribute('opacity',String(op*.95)); svg.appendChild(path);
+    if(lvl>=5){
+      const tip1=document.createElementNS(NS,'path');
+      tip1.setAttribute('d',`M${ex},${ey} Q${ex-8},${ey-5} ${ex-14},${ey-3}`);
+      tip1.setAttribute('stroke',col); tip1.setAttribute('stroke-width','0.9');
+      tip1.setAttribute('stroke-linecap','round'); tip1.setAttribute('fill','none');
+      tip1.setAttribute('opacity',String(op*.7)); svg.appendChild(tip1);
+    }
+  });
+  // Water droplet dots at root tips (lvl ≥ 4)
+  if(lvl>=4){
+    [[180,depth*.55],[220,depth*.7],[168,depth*.35],[232,depth*.42]].forEach(([cx,cy],di)=>{
+      if(di>=Math.floor(lvl/3)) return;
+      const c=document.createElementNS(NS,'circle');
+      c.setAttribute('cx',String(cx)); c.setAttribute('cy',String(cy));
+      c.setAttribute('r','2.4'); c.setAttribute('fill','#29b6f6');
+      c.setAttribute('opacity','0.6'); svg.appendChild(c);
+    });
+  }
 }
 
 /* ── HUD ── */
 function updateHUD(){
-  const sl=['😶 Pale','🌿 Light Green','🌿🌿 Greener','🌿🌿🌿 Deep Green!'];
+  const sl=['😶 No sun yet','🌿 Light green','🌿🌿 Greener','🌿🌿🌿 Deep green!'];
+  const wDots=waterLv?('💧'.repeat(Math.min(waterLv,5))+(waterLv>5?` +${waterLv-5}`:'')):'Not yet';
   const rows=[
-    soilOk?'🌍 Soil: Rich & Ready ✅':'🪨 Soil: Rocky — Fix it!',
-    waterLv?`💧 Water: ${waterLv}/${MAX_W} ${'🔵'.repeat(waterLv)}${waterLv>=MAX_W?' ✅':''}`:'💧 Water: Not yet',
-    sunLv?`☀️ Leaves: ${sl[sunLv]}${sunLv>=MAX_S?' ✅':''}`:'☀️ Sunlight: Not yet'
+    soilOk?'🌍 Soil: Rich ✅':'🪨 Soil: Fix needed',
+    waterLv?`💧 Water: ${waterLv}/${MAX_W}  ${wDots}${waterLv>=MAX_W?' ✅':''}`:`💧 Water: Not yet`,
+    sunLv?`☀️ Leaves: ${sl[sunLv]}${sunLv>=MAX_S?' ✅':''}`:'☀️ Sun: Not yet'
   ];
   document.getElementById('s2hud').innerHTML=rows.join('<br>');
 }
@@ -1150,12 +1343,14 @@ function launchConfetti(){
 function resetS2(){
   soilOk=false;waterLv=0;sunLv=0;celebrated=false;
   const soil=document.getElementById('soil');
-  soil.className='g-soil rocky'; soil.onclick=onSoilClick;
-  buildRocks();
+  soil.className='g-soil rocky'; soil.onclick=null;
+  document.getElementById('rocksLayer').innerHTML='';
+  document.getElementById('rootSvg').innerHTML='';
   document.getElementById('btnFix').style.display='none';
   document.getElementById('cloudBtn').style.display='none';
-  document.getElementById('soilHint').style.display='block';
+  document.getElementById('soilHint').style.display='none';
   document.getElementById('sunH').style.display='none';
+  document.getElementById('soilChoice').style.display='flex';
   ['trunkG','branchG','leavesG','tipG','labelsG'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.innerHTML='';
   });
